@@ -1,0 +1,26 @@
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+header,
+main,
+footer {
+  opacity: 0;
+}
+
+header {
+  animation: fadeIn 1s ease 0s forwards;
+}
+
+main {
+  animation: fadeIn 1s ease 500ms forwards;
+}
+
+footer {
+  animation: fadeIn 1s ease 1000ms forwards;
+}
