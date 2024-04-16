@@ -33,3 +33,13 @@ npm i prisma tsx -D
 npx prisma init
 npx prisma migrate dev --name 'init'
 ```
+
+## 🚀 Setup AWS Infrastructure w/ terraform
+
+### Staging
+
+- Backend on lambda function w/ response stream and lambda function url
+- Frontend on S3 Bucket
+- Cloudfront distribution
+- RDS Postgres database
+- VPC w/private settings
