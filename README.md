@@ -44,6 +44,16 @@ npx prisma migrate dev --name 'init'
 - RDS Postgres database
 - VPC w/private settings
 
+### Prod
+
+- Backend on lambda function w/ response stream and lambda function url
+- Frontend on S3 Bucket
+- Cloudfront distribution
+- RDS Postgres database
+- VPC w/private settings
+- https certificate
+- Route53 domain & hosted zone
+
 ## 🚀 Setup CI/CD
 
 ### Github actions
