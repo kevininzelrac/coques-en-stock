@@ -6,6 +6,13 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 
+import links from "./styles/index";
+export { links };
+
+import bkgrd from "./src/bkgrd.jpg";
+import Header from "./components/header";
+import Footer from "./components/footer";
+
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
@@ -15,8 +22,14 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body>
+      <body
+        style={{
+          background: `url(${bkgrd})`,
+        }}
+      >
+        <Header />
         {children}
+        <Footer />
         <ScrollRestoration />
         <Scripts />
       </body>

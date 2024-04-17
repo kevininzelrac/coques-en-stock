@@ -1,0 +1,19 @@
+version: "3.9"
+
+services:
+  postgres:
+    container_name: postgres
+    image: postgres:16.2
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    env_file:
+      - .env
+    #environment:
+    #  - POSTGRES_PASSWORD=UreWelcome
+    #  - POSTGRES_USER=root
+    #  - POSTGRES_DB=postgres
+
+volumes:
+  postgres:
