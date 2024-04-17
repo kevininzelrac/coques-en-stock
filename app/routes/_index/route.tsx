@@ -1,31 +1,22 @@
-import { useLoaderData } from "@remix-run/react";
 import type { MetaFunction } from "@remix-run/node";
 
 export const meta: MetaFunction = () => {
   return [
     { title: "Coques en Stock" },
-    { name: "description", content: "Home" },
+    { name: "description", content: "Chantier Naval Alain Inzelrac" },
   ];
 };
 
-import loader from "./loader";
-export { loader };
-
 export default function Index() {
-  const { posts } = useLoaderData<typeof loader>();
-
   return (
     <main>
-      {posts.error ? (
-        <div style={{ color: "crimson" }}>{posts.error.message}</div>
-      ) : (
-        posts.data.map((post) => (
-          <div key={post.id}>
-            <h3>{post.title}</h3>
-            <p>{post.content}</p>
-          </div>
-        ))
-      )}
+      <h4>En pleine refonte !</h4>
+      <p>
+        Notre site se métamorphose pour vous offrir une expérience encore plus
+        palpitante.
+      </p>
+      <p>Préparez-vous à hisser de nouvelles voiles virtuelles.</p>
+      <p>En attendant, restez connectés!</p>
     </main>
   );
 }
