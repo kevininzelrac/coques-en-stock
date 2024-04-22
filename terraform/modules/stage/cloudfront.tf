@@ -43,19 +43,27 @@ resource "aws_cloudfront_distribution" "main" {
     default_cache_behavior {
         target_origin_id            = "lambda"
         compress                    = true
-        viewer_protocol_policy      = "redirect-to-https"
+        viewer_protocol_policy      = "https-only"
         allowed_methods             = ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
         cached_methods              = ["GET", "HEAD"]
         cache_policy_id             = "4135ea2d-6df8-44a3-9df3-4b5a84be39ad"
         origin_request_policy_id    = "b689b0a8-53d0-40ab-baf2-68738e2966ac"
         smooth_streaming            = false
+        default_ttl                 = 0
+        max_ttl                     = 0
+
+        lambda_function_association {
+            event_type   = "origin-request"
+            lambda_arn   = "arn:aws:lambda:us-east-1:${var.account_id}:function:${aws_lambda_function.signV4.function_name}:1"
+            include_body = true
+        }
     }
 
     ##CREATE ASSETS CACHE BEHAVIOR
     ordered_cache_behavior {
         path_pattern           = "assets/*"
         target_origin_id       = "assets"
-        viewer_protocol_policy = "redirect-to-https"
+        viewer_protocol_policy = "https-only"
         allowed_methods        = ["GET", "HEAD"]
         cached_methods         = ["GET", "HEAD"]
         compress               = true
@@ -67,7 +75,7 @@ resource "aws_cloudfront_distribution" "main" {
     ordered_cache_behavior {
         path_pattern            = "/favicon.ico"
         target_origin_id        = "assets"
-        viewer_protocol_policy  = "redirect-to-https"
+        viewer_protocol_policy  = "https-only"
         allowed_methods         = ["GET", "HEAD"]
         cached_methods          = ["GET", "HEAD"]
         compress                = true
