@@ -23,17 +23,17 @@ resource "aws_s3_object" "function_zip" {
 }
 
 ## GRANT PERMISSIONS TO CLOUDFRONT TO ACCESS LAMBDA FUNCTION
-resource "aws_lambda_permission" "cloudfront" {
-    statement_id  = "AllowCloudFrontAccess"
-    action        = "lambda:InvokeFunctionUrl"
-    function_name = aws_lambda_function.server.function_name
-    principal     = "cloudfront.amazonaws.com"
-    source_arn    = aws_cloudfront_distribution.main.arn
-}
+# resource "aws_lambda_permission" "cloudfront" {
+#     statement_id  = "AllowCloudFrontAccess"
+#     action        = "lambda:InvokeFunctionUrl"
+#     function_name = aws_lambda_function.server.function_name
+#     principal     = "cloudfront.amazonaws.com"
+#     source_arn    = aws_cloudfront_distribution.main.arn
+# }
 
 ## CREATE LAMBDA CLOUDWATCH LOGS POLICY
-resource "aws_iam_role_policy" "cloudWatchLogs" {
-  name = "cloudWatchLogs"
+resource "aws_iam_role_policy" "LambdaCloudWatchLogs" {
+  name = "LambdaCloudWatchLogs"
   role = aws_iam_role.main.id
   policy = jsonencode({
     Version = "2012-10-17",
@@ -50,22 +50,22 @@ resource "aws_iam_role_policy" "cloudWatchLogs" {
 }
 
 ##CREATE LAMBDA VPC POLICY
-resource "aws_iam_role_policy" "vpcAccess" {
-  name = "createNetworkInterface"
-  role = aws_iam_role.main.id
-  policy = jsonencode({
-    Version = "2012-10-17",
-    Statement = [{
-        Effect = "Allow",
-        Action = [
-                "ec2:CreateNetworkInterface",
-                "ec2:DeleteNetworkInterface",
-                "ec2:DescribeNetworkInterfaces"
-            ],
-        Resource = "*"
-        }]
-  })
-}
+# resource "aws_iam_role_policy" "vpcAccess" {
+#   name = "createNetworkInterface"
+#   role = aws_iam_role.main.id
+#   policy = jsonencode({
+#     Version = "2012-10-17",
+#     Statement = [{
+#         Effect = "Allow",
+#         Action = [
+#                 "ec2:CreateNetworkInterface",
+#                 "ec2:DeleteNetworkInterface",
+#                 "ec2:DescribeNetworkInterfaces"
+#             ],
+#         Resource = "*"
+#         }]
+#   })
+# }
 
 ## CREATE LAMBDA FUNCTION W/ function.zip
 resource "aws_lambda_function" "server" {
@@ -80,11 +80,11 @@ resource "aws_lambda_function" "server" {
   timeout           = 10
   memory_size       = 1024
 
-  vpc_config {
-    ipv6_allowed_for_dual_stack = false
-    subnet_ids = data.aws_subnets.default.ids
-    security_group_ids =[aws_security_group.postgres.id]
-  }
+  # vpc_config {
+  #   ipv6_allowed_for_dual_stack = false
+  #   subnet_ids = data.aws_subnets.default.ids
+  #   security_group_ids =[aws_security_group.postgres.id]
+  # }
 }
 
 ##CREATE LAMBDA FUNCTION URL
@@ -92,6 +92,14 @@ resource "aws_lambda_function_url" "server" {
   function_name      = aws_lambda_function.server.function_name
   authorization_type = "AWS_IAM"
   invoke_mode        = "RESPONSE_STREAM"
+  cors {
+    allow_origins     = ["*"]
+    allow_methods     = ["*"]
+    allow_headers     = []
+    expose_headers    = []
+    allow_credentials = true
+    max_age           = 0
+  }
 }
 
 ##CREATE LAMBDA LOG GROUP
