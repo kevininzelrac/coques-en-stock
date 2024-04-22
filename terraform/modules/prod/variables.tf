@@ -22,6 +22,11 @@ variable "domain_name" {
   type        = string
 }
 
+variable "email" {
+  description = "email of the admin"
+  type        = string
+}
+
 variable "my_ip" {
   description = "My IP address"
   type        = string 
