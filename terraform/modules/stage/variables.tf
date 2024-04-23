@@ -12,6 +12,11 @@ variable "app_name" {
   type        = string
 }
 
+variable "aws_profile" {
+  description = "AWS account profile"
+  type        = string
+}
+
 variable "my_ip" {
   description = "My IP address"
   type        = string 

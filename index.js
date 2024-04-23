@@ -27,7 +27,7 @@ export const handler = createRemixRequestHandler({
 
 const createRemixRequest = (event) => {
   let method = event.requestContext.http.method;
-  let host = event.headers["x-forwarded-host"] || event.headers.host;
+  let host = event.requestContext.domainName;
   let search = event.rawQueryString.length ? `?${event.rawQueryString}` : "";
   let url = new URL(`https://${host}${event.rawPath}${search}`);
   //console.log("URL ", url);

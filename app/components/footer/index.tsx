@@ -1,13 +1,16 @@
 import { Link } from "@remix-run/react";
 import { BsFillTelephoneFill } from "react-icons/bs";
-import { FaFacebook } from "react-icons/fa";
+import { FaFacebook, FaHome } from "react-icons/fa";
 import { IoMdMail } from "react-icons/io";
 
 export default function Footer() {
   return (
     <footer>
       <div>
-        <Link to="mailto:agnesinzelrac@me.com">
+        <Link to="/">
+          <FaHome size="25" />
+        </Link>
+        <Link to="contact">
           <IoMdMail size="25" />
         </Link>
         <Link to="tel:0680782110">
