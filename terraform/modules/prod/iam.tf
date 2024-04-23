@@ -7,7 +7,11 @@ resource "aws_iam_role" "main" {
      Effect = "Allow"
      Action = "sts:AssumeRole"
      Principal  = {
-       Service  = ["lambda.amazonaws.com", "monitoring.rds.amazonaws.com"]
+       Service  = [
+        "lambda.amazonaws.com",
+        "edgelambda.amazonaws.com",
+        "monitoring.rds.amazonaws.com"
+      ]
      }
     }
    ]

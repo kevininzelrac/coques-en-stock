@@ -1,7 +1,7 @@
 variable "aws_profile" {
   description = "AWS profile to use for all resources"
   type    = string
-  default = "agnesinzelrac"
+  default = "default"
 }
 
 variable "aws_region" {
@@ -20,6 +20,11 @@ variable "domain_name" {
   description = "Name of the application"
   type        = string
   default     = "coques-en-stock.fr" 
+}
+
+variable "email" {
+  description = "email of the admin"
+  type        = string
 }
 
 variable my_ip {

@@ -1,6 +1,6 @@
 # Coques en Stock
 
-## 🚀 Setup Database
+## 🚀 Database
 
 ### dev database with docker compose
 
@@ -34,27 +34,33 @@ npx prisma init
 npx prisma migrate dev --name 'init'
 ```
 
-## 🚀 Setup AWS Infrastructure w/ terraform
+## 🚀 AWS Infrastructure w/ terraform
 
 ### Staging
 
 - Backend on lambda function w/ response stream and lambda function url
 - Frontend on S3 Bucket
 - Cloudfront distribution
+- Lambda:Edge Function triggered on CloudFront Origin Request to restrict lambda access to Cloudfront w/ @aws/signatureV4
+- Custom VPC, Subnets & Security Groups for RDS
 - RDS Postgres database
-- VPC w/private settings
+- CloudFlare turnstile reCaptcha
+- Contact Form with AWS Simple Email Service
 
 ### Prod
 
 - Backend on lambda function w/ response stream and lambda function url
 - Frontend on S3 Bucket
 - Cloudfront distribution
+- Lambda:Edge Function triggered on CloudFront Origin Request to restrict lambda access to Cloudfront w/ @aws/signatureV4
+- Custom VPC, Subnets & Security Groups for RDS
 - RDS Postgres database
-- VPC w/private settings
-- https certificate
+- SSL certificate with AWS CertBot
 - Route53 domain & hosted zone
+- CloudFlare turnstile reCaptcha
+- Contact Form with AWS Simple Email Service
 
-## 🚀 Setup CI/CD
+## 🚀 CI/CD
 
 ### Github actions
 
