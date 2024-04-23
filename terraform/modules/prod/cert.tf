@@ -1,8 +1,8 @@
-provider "aws" {
-  alias = "virginia"
-  region = "us-east-1"
-  profile = var.aws_profile
-}
+# provider "aws" {
+#   alias = "virginia"
+#   region = "us-east-1"
+#   profile = var.aws_profile
+# }
 
 resource "aws_acm_certificate" "main" {
     domain_name = var.domain_name 
