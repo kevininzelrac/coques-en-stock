@@ -2,6 +2,7 @@ import useTypedRouteLoaderData from "~/hooks/useTypedRouteLoaderData";
 import { MetaFunction } from "@remix-run/node";
 
 import loader from "../settings/loader";
+import Img from "~/components/img";
 export { loader };
 
 export const meta: MetaFunction = () => [
@@ -23,7 +24,7 @@ export default function Index() {
           membre depuis le {new Date(user.createdAt).toLocaleDateString()}
         </time>
       </div>
-      <img src={user.avatar} alt={user.firstname} width={80} />
+      <Img src={user.avatar} alt={user.firstname} width={80} />
     </div>
   );
 }
