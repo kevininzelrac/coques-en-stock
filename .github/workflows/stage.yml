@@ -27,11 +27,22 @@ jobs:
 
       - name: Create .env file
         run: |
-          echo 'DATABASE_URL="${{ secrets.DATABASE_URL }}"' >> .env
+          echo 'APP_NAME="${{ secrets.APP_NAME }}"' >> .env
           echo 'BRANCH_NAME="${{ github.ref_name }}"' >> .env
+          echo 'DOMAIN_NAME="${{ secrets.DOMAIN_NAME }}"' >> .env
+          echo 'FULL_NAME="${{ secrets.FULL_NAME }}"' >> .env
+          echo 'ORIGIN="${{ secrets.ORIGIN }}"' >> .env
+          echo 'ADMIN="${{ secrets.ADMIN }}"' >> .env
+          echo 'ACCESS_SECRET="${{ secrets.ACCESS_SECRET }}"' >> .env
+          echo 'REFRESH_SECRET="${{ secrets.REFRESH_SECRET }}"' >> .env
+          echo 'SESSION_SECRET="${{ secrets.SESSION_SECRET }}"' >> .env
+          echo 'ACCESS_TOKEN_DURATION="${{ secrets.ACCESS_TOKEN_DURATION }}"' >> .env
+          echo 'DATABASE_URL="${{ secrets.DATABASE_URL }}"' >> .env
           echo 'CLOUDFLARE_SITE_KEY="${{ secrets.CLOUDFLARE_SITE_KEY }}"' >> .env
           echo 'CLOUDFLARE_SECRET_KEY="${{ secrets.CLOUDFLARE_SECRET_KEY }}"' >> .env
-          echo 'NO_REPLY="${{ secrets.NO_REPLY }}"' >> .env
+          echo 'FACEBOOK_CLIENT_ID="${{ secrets.FACEBOOK_CLIENT_ID }}"' >> .env
+          echo 'GOOGLE_CLIENT_ID="${{ secrets.GOOGLE_CLIENT_ID }}"' >> .env
+          echo 'GOOGLE_CLIENT_SECRET="${{ secrets.GOOGLE_CLIENT_SECRET }}"' >> .env
 
       - name: Installing Dependencies
         run: npm install
