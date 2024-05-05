@@ -2,9 +2,11 @@ form {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  width: 100%;
+  min-width: 300px;
   background: ghostwhite;
   padding: 1rem;
-  border-radius: 0.4rem;
+  border-radius: 0.3rem;
 }
 
 form > fieldset {
@@ -12,7 +14,7 @@ form > fieldset {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border: 1px solid lightgray;
+  border: 1px solid var(--contrast);
   border-radius: 0.2rem;
   max-height: fit-content;
 }
@@ -48,15 +50,14 @@ form > fieldset > input:focus {
   outline: none;
 }
 
-form > button {
-  background: var(--primary);
-  color: ghostwhite;
-  font-weight: 700;
-  border-radius: 0.2rem;
-  padding: 0.4rem;
-  cursor: pointer;
-}
+fieldset[data-or] {
+  margin: 0.5rem 0;
+  width: 100%;
+  text-align: center;
+  border-top: 1px solid var(--contrast);
 
-form > button:hover {
-  opacity: 0.9;
+  & > legend {
+    font-weight: bold;
+    padding: 0 0.5rem;
+  }
 }

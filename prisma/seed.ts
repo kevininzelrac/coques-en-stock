@@ -2,11 +2,41 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
+const getAuthorId = async (email: string) => {
+  const user = await prisma.user.findUnique({
+    where: {
+      email: email,
+    },
+    select: {
+      id: true,
+    },
+  });
+  if (!user) throw new Error("Can't find authorId");
+  return user.id;
+};
+
 const main = async () => {
+  await prisma.user.create({
+    data: {
+      email: "kevin@prisma.io",
+      fullname: "Kevin The Dude",
+      firstname: "Kevin",
+      lastname: "The Dude",
+      avatar:
+        "https://fastly.picsum.photos/id/962/200/200.jpg?hmac=XehF7z9JYkgC-2ZfSP05h7eyumIq9wNKUDoCLklIhr4",
+      credential: {
+        create: {
+          passwordHash: process.env.PWD_HASH,
+        },
+      },
+    },
+  });
+
   await prisma.post.create({
     data: {
       title: "Hello World",
       content: "This is a test post",
+      authorId: await getAuthorId("kevin@prisma.io"),
     },
   });
 };

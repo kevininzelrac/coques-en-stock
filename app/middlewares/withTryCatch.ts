@@ -1,6 +1,8 @@
-const withTryCatch = async <T>(query: T, message?: string) => {
+const withTryCatch = async <T>(query: Promise<T>, message?: string) => {
   try {
-    return { data: await query, error: null };
+    const data = await query;
+    if (!data) throw new Error(message || "Data not found");
+    return { data, error: null };
   } catch (error) {
     if (error instanceof Error) {
       if (process.env.NODE_ENV === "development")

@@ -1,11 +1,9 @@
 import type { MetaFunction } from "@remix-run/node";
 
-export const meta: MetaFunction = () => {
-  return [
-    { title: "Coques en Stock" },
-    { name: "description", content: "Chantier Naval Alain Inzelrac" },
-  ];
-};
+export const meta: MetaFunction = () => [
+  { title: "Coques en Stock • Home" },
+  { name: "description", content: "Coques en Stock • Home" },
+];
 
 export default function Index() {
   return (
