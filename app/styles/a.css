@@ -1,0 +1,35 @@
+a {
+  transition: color 0.2s ease-in-out, opacity 0.2s ease-in-out;
+}
+
+a:not(nav a, .primary) {
+  color: var(--primary);
+}
+
+a:not(nav a, .primary):hover {
+  color: grey;
+}
+
+nav a {
+  color: ghostwhite;
+  font-family: "Montserrat-Bold", sans-serif;
+  box-sizing: content-box;
+  opacity: 0.8;
+}
+
+nav a:hover {
+  opacity: 1;
+}
+
+nav a.active {
+  color: var(--primary);
+}
+
+nav a.pending {
+  color: var(--secondary);
+}
+
+header > nav a {
+  text-transform: uppercase;
+  padding: 0.8rem 0;
+}
