@@ -1,4 +1,4 @@
-const email = ({
+const template = ({
   name,
   email,
   object,
@@ -9,14 +9,14 @@ const email = ({
   object: string;
   message: string;
 }) => ({
-  Source: "no-reply@coques-en-stock.fr",
+  Source: `no-reply@${process.env.DOMAIN_NAME}`,
   Destination: {
-    ToAddresses: [process.env.NO_REPLY!],
+    ToAddresses: [process.env.ADMIN],
   },
   Message: {
     Subject: {
       Charset: "UTF-8",
-      Data: "Coques en Stock - Formulaire de contact",
+      Data: `${process.env.FULL_NAME} • Formulaire de Contact`,
     },
     Body: {
       Html: {
@@ -33,4 +33,4 @@ const email = ({
     },
   },
 });
-export default email;
+export default template;
