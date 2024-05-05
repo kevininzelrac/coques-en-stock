@@ -1,0 +1,21 @@
+main {
+  display: flex;
+  justify-content: center;
+}
+
+main > article {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-self: center;
+  gap: 0.5rem;
+  width: fit-content;
+  padding: 1rem;
+}
+
+main > article > nav {
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+  color: ghostwhite;
+}
