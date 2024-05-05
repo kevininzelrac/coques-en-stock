@@ -11,3 +11,24 @@
   -webkit-tap-highlight-color: transparent; /* no black "overlay" on tap target */
   padding: env(safe-area-inset-[side]); /* extend UI into Notch + Home Bar */
 }
+
+/*************************
+  Google Sign Flicker Fix
+*************************/
+.g_id_signin > div > div:first-child {
+  display: none;
+}
+
+@media only screen and (hover: none) and (pointer: coarse) {
+  /* IOS and Mozilla on Android */
+  .g_id_signin > div > div:first-child {
+    display: block;
+  }
+}
+
+@media only screen and (hover: hover) and (pointer: coarse) {
+  /* Chromium on Android */
+  .g_id_signin > div > div:first-child {
+    display: block;
+  }
+}

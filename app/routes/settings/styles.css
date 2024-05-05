@@ -1,0 +1,51 @@
+main {
+  display: flex;
+  justify-content: center;
+}
+
+main > article {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-self: center;
+  gap: 0.5rem;
+  width: fit-content;
+  padding: 1rem;
+}
+
+main > article > nav {
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+  color: ghostwhite;
+  gap: 0.5rem;
+}
+
+/* delete account action success message */
+main > article > div {
+  padding: 0.5rem;
+  border-radius: 0.3rem;
+  background-color: ghostwhite;
+  color: var(--secondary);
+}
+
+main > article > div.badge {
+  /* width: 100%; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  border-radius: 0.3rem;
+  background-color: ghostwhite;
+  color: var(--secondary);
+
+  & > div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    & > span {
+      color: var(--darkGrey);
+    }
+  }
+}

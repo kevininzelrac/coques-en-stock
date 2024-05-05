@@ -1,9 +1,17 @@
+import { SerializeFrom } from "@remix-run/node";
 import { Link } from "@remix-run/react";
 import { BsFillTelephoneFill } from "react-icons/bs";
-import { FaFacebook, FaHome } from "react-icons/fa";
-import { IoMdMail } from "react-icons/io";
+import { FaFacebook, FaHome, FaUser } from "react-icons/fa";
+import { IoMdMail, IoMdSettings } from "react-icons/io";
+import { LuLogOut } from "react-icons/lu";
 
-export default function Footer() {
+import { loader } from "~/root";
+
+export default function Footer({
+  user,
+}: {
+  user: SerializeFrom<typeof loader>["user"];
+}) {
   return (
     <footer>
       <div>
@@ -23,6 +31,20 @@ export default function Footer() {
         >
           <FaFacebook size="25" />
         </Link>
+        {user ? (
+          <>
+            <Link to="settings">
+              <IoMdSettings size="25" />
+            </Link>
+            <Link to="signout">
+              <LuLogOut size="25" />
+            </Link>
+          </>
+        ) : (
+          <Link to="signin">
+            <FaUser size="25" />
+          </Link>
+        )}
       </div>
     </footer>
   );

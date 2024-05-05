@@ -1,4 +1,9 @@
 :root {
   --primary: #336699;
-  --secondary: #333;
+  --secondary: #333333;
+  --contrast: lightgray;
+  --anthracite: #333333;
+  --darkGrey: darkgrey;
+  --mediumGrey: grey;
+  --lightGrey: lightgrey;
 }

@@ -9,8 +9,8 @@ import action from "./action";
 export { loader, action };
 
 export const meta: MetaFunction = () => [
-  { title: "Contact" },
-  { name: "description", content: "Contact" },
+  { title: "Coques en Stock • Contact" },
+  { name: "description", content: "Coques en Stock • Contact" },
 ];
 
 export default function Contact() {
@@ -19,7 +19,7 @@ export default function Contact() {
   const formRef = useRef<HTMLFormElement>(null);
   const [successMessage, setSuccessMessage] = useState("");
 
-  let isSubmitting = fetcher.state !== "idle";
+  const isSubmitting = fetcher.state !== "idle";
 
   useEffect(() => {
     if (fetcher.state === "idle" && fetcher.data && !fetcher.data.error) {
@@ -42,7 +42,7 @@ export default function Contact() {
           ref={formRef}
           aria-disabled={isSubmitting}
           style={{
-            opacity: isSubmitting ? ".6" : "1",
+            opacity: isSubmitting ? ".8" : "1",
           }}
         >
           <fieldset>
@@ -61,14 +61,20 @@ export default function Contact() {
             <legend>Message</legend>
             <textarea name="message" rows={4} required></textarea>
           </fieldset>
-          <button disabled={isSubmitting}>send</button>
+          <button data-primary disabled={isSubmitting}>
+            send
+          </button>
+          {/* STATE */}
           {isSubmitting ? fetcher.state : null}
+          {/* SUCCESS */}
           {successMessage ? (
             <div style={{ color: "green" }}>{successMessage}</div>
           ) : null}
+          {/* ERROR */}
           {fetcher.data?.error ? (
             <div style={{ color: "crimson" }}>{fetcher.data.error.message}</div>
           ) : null}
+          {/* CAPTCHA */}
           {siteKey && <Turnstile siteKey={siteKey} />}
         </fetcher.Form>
       </article>

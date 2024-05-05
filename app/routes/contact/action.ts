@@ -1,6 +1,6 @@
 import { ActionFunctionArgs, json } from "@remix-run/node";
 import { sendEmail } from "~/services/ses.server";
-import email from "./email";
+import template from "./template";
 import Challenge from "~/components/turnstile/challenge.server";
 
 const action = async ({ request }: ActionFunctionArgs) => {
@@ -16,15 +16,15 @@ const action = async ({ request }: ActionFunctionArgs) => {
       error: { message: "Failed to send email, try again !" },
     });
 
-  const mail = await sendEmail(
-    email({
+  const send = await sendEmail(
+    template({
       name: String(formData.get("name")),
       email: String(formData.get("email")),
       object: String(formData.get("object")),
       message: String(formData.get("message")),
     })
   );
-  if (mail.error) {
+  if (send.error) {
     return json({
       success: null,
       error: { message: "Failed to send email, try again !" },
