@@ -16,12 +16,27 @@ const getAuthorId = async (email: string) => {
 };
 
 const main = async () => {
-  await prisma.user.create({
-    data: {
+  await prisma.user.upsert({
+    where: { email: "kevin@prisma.io" },
+    update: {
+      fullname: "Kevin The Dude",
+      firstname: "Kevin",
+      lastname: "The Dude",
+      role: "ADMIN",
+      avatar:
+        "https://fastly.picsum.photos/id/962/200/200.jpg?hmac=XehF7z9JYkgC-2ZfSP05h7eyumIq9wNKUDoCLklIhr4",
+      credential: {
+        update: {
+          passwordHash: process.env.PWD_HASH,
+        },
+      },
+    },
+    create: {
       email: "kevin@prisma.io",
       fullname: "Kevin The Dude",
       firstname: "Kevin",
       lastname: "The Dude",
+      role: "ADMIN",
       avatar:
         "https://fastly.picsum.photos/id/962/200/200.jpg?hmac=XehF7z9JYkgC-2ZfSP05h7eyumIq9wNKUDoCLklIhr4",
       credential: {
@@ -32,8 +47,13 @@ const main = async () => {
     },
   });
 
-  await prisma.post.create({
-    data: {
+  await prisma.post.upsert({
+    where: { title: "Hello World" },
+    update: {
+      content: "This is a test post",
+      authorId: await getAuthorId("kevin@prisma.io"),
+    },
+    create: {
       title: "Hello World",
       content: "This is a test post",
       authorId: await getAuthorId("kevin@prisma.io"),

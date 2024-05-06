@@ -52,6 +52,8 @@ model Post {
   updatedAt     DateTime  @updatedAt
   authorId      String    @db.Uuid
   author        User      @relation(fields: [authorId], references: [id])
+  status        Status    @default(DRAFT)
+  audience      Audience  @default(PRIVATE)
 
   @@index([createdAt])
 }
@@ -61,4 +63,14 @@ enum Role {
   EDITOR
   BASIC
   FOLLOWER
+}
+
+enum Status {
+  DRAFT
+  PUBLISHED
+}
+
+enum Audience {
+  PUBLIC
+  PRIVATE
 }
