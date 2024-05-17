@@ -24,8 +24,10 @@ export const handler = async (event) => {
     query: Object.fromEntries(url.searchParams),
     body:
       request.body && request.body.data
-        ? Buffer.from(request.body.data, request.body.encoding).toString()
-        : undefined,
+        ? headers["content-type"][0].value.includes("multipart/form-data")
+          ? Buffer.from(request.body.data, request.body.encoding)
+          : Buffer.from(request.body.data, request.body.encoding).toString()
+        : null,
     headers:
       method === "POST"
         ? {
