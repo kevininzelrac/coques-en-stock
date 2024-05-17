@@ -8,28 +8,6 @@ data "archive_file" "lambda_zip" {
   output_path = "modules/${local.environment}/function.zip"
 }
 
-## CREATE S3 BUCKET TO STORE LAMBDA FUNCTION
-resource "aws_s3_bucket" "lambda" {
-    bucket = "${var.app_name}-${local.environment}-lambda"
-    force_destroy = true
-}
-
-## UPLOAD ZIP TO S3 BUCKET
-resource "aws_s3_object" "function_zip" {
-    bucket = aws_s3_bucket.lambda.id
-    key    = "function.zip"
-    source = data.archive_file.lambda_zip.output_path
-    acl    = "private"
-}
-
-## GRANT PERMISSIONS TO CLOUDFRONT TO ACCESS LAMBDA FUNCTION
-# resource "aws_lambda_permission" "cloudfront" {
-#     statement_id  = "AllowCloudFrontAccess"
-#     action        = "lambda:InvokeFunctionUrl"
-#     function_name = aws_lambda_function.server.function_name
-#     principal     = "cloudfront.amazonaws.com"
-#     source_arn    = aws_cloudfront_distribution.main.arn
-# }
 
 ## CREATE LAMBDA CLOUDWATCH LOGS POLICY
 resource "aws_iam_role_policy" "LambdaCloudWatchLogs" {
@@ -49,36 +27,21 @@ resource "aws_iam_role_policy" "LambdaCloudWatchLogs" {
   })
 }
 
-##CREATE LAMBDA VPC POLICY
-# resource "aws_iam_role_policy" "vpcAccess" {
-#   name = "createNetworkInterface"
-#   role = aws_iam_role.main.id
-#   policy = jsonencode({
-#     Version = "2012-10-17",
-#     Statement = [{
-#         Effect = "Allow",
-#         Action = [
-#                 "ec2:CreateNetworkInterface",
-#                 "ec2:DeleteNetworkInterface",
-#                 "ec2:DescribeNetworkInterfaces"
-#             ],
-#         Resource = "*"
-#         }]
-#   })
-# }
-
 ## CREATE LAMBDA FUNCTION W/ function.zip
 resource "aws_lambda_function" "server" {
   function_name     = "${var.app_name}-${local.environment}"
   description       = "${var.app_name}-${local.environment}"
   role              = aws_iam_role.main.arn
-  s3_bucket         =  aws_s3_bucket.lambda.id
-  s3_key            =  aws_s3_object.function_zip.key
+  filename          = data.archive_file.lambda_zip.output_path
+  source_code_hash  = data.archive_file.lambda_zip.output_base64sha256
+  # s3_bucket         =  aws_s3_bucket.lambda.id
+  # s3_key            =  aws_s3_object.function_zip.key
   architectures     = ["x86_64"]
   runtime           = "nodejs20.x"
   handler           = "index.handler"
   timeout           = 10
   memory_size       = 1024
+  layers            = [ aws_lambda_layer_version.main.arn ]
 
   # vpc_config {
   #   ipv6_allowed_for_dual_stack = false
@@ -107,3 +70,45 @@ resource "aws_cloudwatch_log_group" "config" {
   name = "/aws/lambda/${aws_lambda_function.server.function_name}"
   retention_in_days = 14
 }
+
+# ## CREATE S3 BUCKET TO STORE LAMBDA FUNCTION
+# resource "aws_s3_bucket" "lambda" {
+#     bucket = "${var.app_name}-${local.environment}-lambda"
+#     force_destroy = true
+# }
+
+# ## UPLOAD ZIP TO S3 BUCKET
+# resource "aws_s3_object" "function_zip" {
+#     bucket = aws_s3_bucket.lambda.id
+#     key    = "function.zip"
+#     source = data.archive_file.lambda_zip.output_path
+#     acl    = "private"
+# }
+
+
+## GRANT PERMISSIONS TO CLOUDFRONT TO ACCESS LAMBDA FUNCTION
+# resource "aws_lambda_permission" "cloudfront" {
+#     statement_id  = "AllowCloudFrontAccess"
+#     action        = "lambda:InvokeFunctionUrl"
+#     function_name = aws_lambda_function.server.function_name
+#     principal     = "cloudfront.amazonaws.com"
+#     source_arn    = aws_cloudfront_distribution.main.arn
+# }
+
+##CREATE LAMBDA VPC POLICY
+# resource "aws_iam_role_policy" "vpcAccess" {
+#   name = "createNetworkInterface"
+#   role = aws_iam_role.main.id
+#   policy = jsonencode({
+#     Version = "2012-10-17",
+#     Statement = [{
+#         Effect = "Allow",
+#         Action = [
+#                 "ec2:CreateNetworkInterface",
+#                 "ec2:DeleteNetworkInterface",
+#                 "ec2:DescribeNetworkInterfaces"
+#             ],
+#         Resource = "*"
+#         }]
+#   })
+# }
