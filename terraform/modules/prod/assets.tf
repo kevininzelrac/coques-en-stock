@@ -31,13 +31,16 @@ resource "aws_iam_role_policy" "assets" {
           "s3:DeleteObject",
           "s3:ListBucket"
         ],
-        Resource =  "${aws_s3_bucket.assets.arn}/*"         
+        Resource =  [
+          "${aws_s3_bucket.assets.arn}",
+          "${aws_s3_bucket.assets.arn}/*",          
+          ]        
       }]
   })
 }
 
 ## ATTACH BUCKET POLICY TO S3 BUCKET
-resource "aws_s3_bucket_policy" "bucket_policy" {
+resource "aws_s3_bucket_policy" "assets" {
   bucket = aws_s3_bucket.assets.id
   policy = jsonencode({
     Version = "2012-10-17",

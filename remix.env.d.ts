@@ -8,6 +8,7 @@ declare namespace NodeJS {
     DOMAIN_NAME: string;
     BRANCH_NAME: string;
     ORIGIN: string;
+    STAGE_ORIGIN: string;
 
     ADMIN: string;
 

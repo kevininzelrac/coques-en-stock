@@ -1,13 +1,14 @@
-name: Build & Deploy in stage Environment
+name: Build & Deploy
 on:
   push:
     branches:
       - stage
+      - prod
 
 jobs:
   Build-Deploy:
     runs-on: ubuntu-latest
-    environment: stage
+    environment: ${{ github.ref_name }}
 
     steps:
       - name: Checking out code
@@ -59,18 +60,47 @@ jobs:
       - name: Deleting devDependencies
         run: npm prune --omit dev
 
+      # ASSETS
+      - name: Deploy Assets to S3 bucket
+        run: aws s3 sync build/client/ s3://${{ secrets.APP_NAME }}-${{ github.ref_name }}-assets --delete
+
+      # LAYER
+      - name: Zip Node Modules
+        run: zip -r node_modules.zip node_modules .env index.js
+
+      - name: Deploy the node_modules.zip to layer bucket
+        run: aws s3 cp node_modules.zip s3://${{ secrets.APP_NAME }}-${{ github.ref_name }}-layer
+
+      - name: Publish Layer Version
+        id: layer
+        run: |
+          layer_version=$(aws lambda publish-layer-version \
+            --layer-name ${{ secrets.APP_NAME }}-${{ github.ref_name }}-layer \
+            --content S3Bucket=${{ secrets.APP_NAME }}-${{ github.ref_name }}-layer,S3Key=node_modules.zip \
+            --query 'LayerVersionArn' --output text)
+            echo "version=${layer_version}" >> $GITHUB_OUTPUT
+
+      # LAMBDA
       - name: Zip Build Package
-        run: zip -r function.zip package.json node_modules build/server .env index.js
+        run: zip -r function.zip package.json build/server index.js .env
 
-      - name: Deploy function.zip to S3
-        run: aws s3 cp function.zip s3://${{ secrets.APP_NAME }}-stage-lambda
-
-      - name: Deploy BackEnd to Lambda
+      - name: Deploy the function.zip to lambda function
         run: |
           aws lambda update-function-code \
-          --function-name ${{ secrets.APP_NAME }}-stage \
-          --s3-bucket ${{ secrets.APP_NAME }}-stage-lambda \
-          --s3-key function.zip
+          --function-name ${{ secrets.APP_NAME }}-${{ github.ref_name }} \
+          --zip-file fileb://function.zip \
+          --no-cli-pager
 
-      - name: Deploy Assets to S3 bucket
-        run: aws s3 sync build/client/ s3://${{ secrets.APP_NAME }}-stage-assets --delete
+      # CONFIG
+      - name: Wait for the function to be updated
+        run: |
+          aws lambda wait function-updated \
+          --function-name ${{ secrets.APP_NAME }}-${{ github.ref_name }} \
+          --no-cli-pager
+
+      - name: Update the lambda function configuration
+        run: |
+          aws lambda update-function-configuration \
+          --function-name ${{ secrets.APP_NAME }}-${{ github.ref_name }} \
+          --layers "${{ steps.layer.outputs.version }}" \
+          --no-cli-pager
