@@ -1,26 +1,19 @@
+/* ////////////////////////////////*/
+/*      FADE IN / FADE OUT        */
 @keyframes fadeIn {
-  from {
+  0% {
     opacity: 0;
   }
-  to {
+  100% {
     opacity: 1;
   }
 }
 
-header,
-main,
-footer {
-  opacity: 0;
-}
-
-header {
-  animation: fadeIn 1s ease 0s forwards;
-}
-
-main {
-  animation: fadeIn 1s ease 500ms forwards;
-}
-
-footer {
-  animation: fadeIn 1s ease 1000ms forwards;
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }

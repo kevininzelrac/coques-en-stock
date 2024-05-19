@@ -1,8 +1,15 @@
 import { MetaFunction, useFetcher } from "@remix-run/react";
 import { useEffect, useRef } from "react";
 
+import sleep from "~/utils/sleep";
+
 import action from "./action";
 export { action };
+
+export const clientLoader = async () => {
+  await sleep();
+  return null;
+};
 
 export const meta: MetaFunction = () => [
   { title: "Coques en Stock • Forgot password" },
