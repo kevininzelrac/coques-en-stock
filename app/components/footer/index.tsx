@@ -3,7 +3,8 @@ import { Link } from "@remix-run/react";
 import { BsFillTelephoneFill } from "react-icons/bs";
 import { FaFacebook, FaHome, FaUser } from "react-icons/fa";
 import { IoMdMail, IoMdSettings } from "react-icons/io";
-import { LuLogOut } from "react-icons/lu";
+import { LuLogOut, LuUploadCloud } from "react-icons/lu";
+import { MdStream } from "react-icons/md";
 import { SiProteus } from "react-icons/si";
 
 import { loader } from "~/root";
@@ -36,6 +37,9 @@ export default function Footer({
           <>
             <Link to="priviledges">
               <SiProteus size="25" />
+            </Link>
+            <Link to="upload">
+              <LuUploadCloud size="25" />
             </Link>
             <Link to="settings">
               <IoMdSettings size="25" />

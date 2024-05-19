@@ -1,4 +1,4 @@
-##CREATE ORIGIN ACCESS CONTROL
+## ORIGIN ACCESS CONTROL FOR ASSETS
 resource "aws_cloudfront_origin_access_control" "assets" {
   name                              = aws_s3_bucket.assets.bucket_regional_domain_name
   description                       = aws_s3_bucket.assets.bucket_regional_domain_name
@@ -7,7 +7,21 @@ resource "aws_cloudfront_origin_access_control" "assets" {
   signing_protocol                  = "sigv4"
 }
 
-##CREATE CLOUDFRONT DISTRIBUTION
+## ORIGIN ACCESS CONTROL FOR STORAGE
+resource "aws_cloudfront_origin_access_control" "storage" {
+  name                              = aws_s3_bucket.storage.bucket_regional_domain_name
+  description                       = aws_s3_bucket.storage.bucket_regional_domain_name
+  origin_access_control_origin_type = "s3"
+  signing_behavior                  = "always"
+  signing_protocol                  = "sigv4"
+}
+
+## CACHE POLICY ID FOR STORAGE
+data "aws_cloudfront_cache_policy" "CachingDisabled" {
+name = "Managed-CachingDisabled"
+}
+
+## CLOUDFRONT DISTRIBUTION
 resource "aws_cloudfront_distribution" "main" {
     enabled             = true
     is_ipv6_enabled     = true
@@ -15,18 +29,17 @@ resource "aws_cloudfront_distribution" "main" {
     price_class         = "PriceClass_All"
     http_version        = "http2"
 
-    ##CREATE S3 ORIGIN
-    origin {
-        domain_name = aws_s3_bucket.assets.bucket_regional_domain_name
-        origin_id   = "assets"
-
-        s3_origin_config {
-            origin_access_identity = ""
-        }
-        origin_access_control_id = aws_cloudfront_origin_access_control.assets.id
+    viewer_certificate {
+        cloudfront_default_certificate = true
     }
 
-    ##CREATE LAMBDA ORIGIN
+    restrictions {
+        geo_restriction {
+            restriction_type = "none"
+        }
+    }
+
+    ## LAMBDA FUNCTION URL ORIGIN
     origin {
         domain_name = replace(replace(aws_lambda_function_url.server.function_url, "https://", ""), "/", "")
         origin_id   = "lambda"
@@ -38,8 +51,30 @@ resource "aws_cloudfront_distribution" "main" {
             origin_ssl_protocols   = ["TLSv1.2"]
         }
     }
+    
+    ## S3 ORIGIN FOR ASSETS
+    origin {
+        origin_id   = "assets"
+        domain_name = aws_s3_bucket.assets.bucket_regional_domain_name
 
-    ##CREATE DEFAULT CACHE BEHAVIOR
+        s3_origin_config {
+            origin_access_identity = ""
+        }
+        origin_access_control_id = aws_cloudfront_origin_access_control.assets.id
+    }
+    
+    ## S3 ORIGIN FOR STORAGE
+    origin {
+        origin_id   = "storage"
+        domain_name = aws_s3_bucket.storage.bucket_regional_domain_name
+
+        s3_origin_config {
+            origin_access_identity = ""
+        }
+        origin_access_control_id = aws_cloudfront_origin_access_control.storage.id
+    }
+
+    ## DEFAULT CACHE BEHAVIOR
     default_cache_behavior {
         target_origin_id            = "lambda"
         compress                    = true
@@ -54,24 +89,13 @@ resource "aws_cloudfront_distribution" "main" {
 
         lambda_function_association {
             event_type   = "origin-request"
-            lambda_arn   = "arn:aws:lambda:us-east-1:${var.account_id}:function:${aws_lambda_function.signV4.function_name}:1"
+            # lambda_arn   = "${aws_lambda_function.signV4.arn}:1"
+            lambda_arn   = "${aws_lambda_function.signV4.arn}:${aws_lambda_function.signV4.version}"
             include_body = true
         }
     }
 
-    ##CREATE ASSETS CACHE BEHAVIOR
-    ordered_cache_behavior {
-        path_pattern           = "assets/*"
-        target_origin_id       = "assets"
-        viewer_protocol_policy = "redirect-to-https"
-        allowed_methods        = ["GET", "HEAD"]
-        cached_methods         = ["GET", "HEAD"]
-        compress               = true
-        smooth_streaming       = false
-        cache_policy_id        = "658327ea-f89d-4fab-a63d-7e88639e58f6"
-    }
-    
-    ##CREATE FAVICON CACHE BEHAVIOR
+    ## FAVICON CACHE BEHAVIOR
     ordered_cache_behavior {
         path_pattern            = "/favicon.ico"
         target_origin_id        = "assets"
@@ -83,13 +107,27 @@ resource "aws_cloudfront_distribution" "main" {
         cache_policy_id         = "658327ea-f89d-4fab-a63d-7e88639e58f6"
     }
 
-    viewer_certificate {
-        cloudfront_default_certificate = true
+    ## ASSETS CACHE BEHAVIOR
+    ordered_cache_behavior {
+        path_pattern           = "/assets/*"
+        target_origin_id       = "assets"
+        viewer_protocol_policy = "redirect-to-https"
+        allowed_methods        = ["GET", "HEAD"]
+        cached_methods         = ["GET", "HEAD"]
+        compress               = true
+        smooth_streaming       = false
+        cache_policy_id        = "658327ea-f89d-4fab-a63d-7e88639e58f6"
     }
-
-    restrictions {
-        geo_restriction {
-            restriction_type = "none"
-        }
+    
+    ## STORAGE CACHE BEHAVIOR
+    ordered_cache_behavior {
+        path_pattern           = "/storage/*"
+        target_origin_id       = "storage"
+        viewer_protocol_policy = "redirect-to-https"
+        allowed_methods        = ["GET", "HEAD"]
+        cached_methods         = ["GET", "HEAD"]
+        compress               = true
+        smooth_streaming       = false
+        cache_policy_id        = data.aws_cloudfront_cache_policy.CachingDisabled.id
     }
 }
