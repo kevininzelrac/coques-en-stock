@@ -1,10 +1,31 @@
-import { useFetcher, useLoaderData, useRevalidator } from "@remix-run/react";
+import {
+  ClientLoaderFunctionArgs,
+  MetaFunction,
+  useFetcher,
+  useLoaderData,
+  useRevalidator,
+} from "@remix-run/react";
 import { useEffect, useRef, useState } from "react";
 import Img from "~/components/img";
+
+import sleep from "~/utils/sleep";
+import Transition from "~/components/transition";
 
 import loader from "./loader";
 import action from "./action";
 export { loader, action };
+
+export const clientLoader = async ({
+  serverLoader,
+}: ClientLoaderFunctionArgs) => {
+  await sleep();
+  return await serverLoader<typeof loader>();
+};
+
+export const meta: MetaFunction = () => [
+  { title: "Coques en Stock • Upload" },
+  { name: "description", content: "Coques en Stock • Upload" },
+];
 
 export default function Upload() {
   const { origin, gallerie } = useLoaderData<typeof loader>();
@@ -50,37 +71,41 @@ export default function Upload() {
   };
 
   return (
-    <main>
-      <article>
-        <form onSubmit={(e) => e.preventDefault()}>
-          <h1>Upload to S3</h1>
-          <input
-            ref={inputRef}
-            type="file"
-            name="image"
-            accept="image/*"
-            required
-          />
-          <button data-primary onClick={handleUpload}>
-            Upload
-          </button>
-          {loading ? <label>Uploading...</label> : null}
-          {error ? <label style={{ color: "crimson" }}>{error}</label> : null}
-          {success ? <label style={{ color: "green" }}>{success}</label> : null}
-        </form>
-
-        <br />
-        <h2>Gallery</h2>
-        <section style={{ display: "flex", flexWrap: "wrap", gap: "0.3rem" }}>
-          {gallerie?.map((item) => (
-            <Img
-              style={{ height: 100 }}
-              key={item.Key}
-              src={`${origin}/${item.Key}`}
+    <Transition>
+      <main>
+        <article>
+          <form onSubmit={(e) => e.preventDefault()}>
+            <h1>Upload to S3</h1>
+            <input
+              ref={inputRef}
+              type="file"
+              name="image"
+              accept="image/*"
+              required
             />
-          ))}
-        </section>
-      </article>
-    </main>
+            <button data-primary onClick={handleUpload}>
+              Upload
+            </button>
+            {loading ? <label>Uploading...</label> : null}
+            {error ? <label style={{ color: "crimson" }}>{error}</label> : null}
+            {success ? (
+              <label style={{ color: "green" }}>{success}</label>
+            ) : null}
+          </form>
+
+          <br />
+          <h2>Gallery</h2>
+          <section style={{ display: "flex", flexWrap: "wrap", gap: "0.3rem" }}>
+            {gallerie?.map((item) => (
+              <Img
+                style={{ height: 100 }}
+                key={item.Key}
+                src={`${origin}/${item.Key}`}
+              />
+            ))}
+          </section>
+        </article>
+      </main>
+    </Transition>
   );
 }

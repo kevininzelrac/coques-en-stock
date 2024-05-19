@@ -49,6 +49,7 @@ npx prisma migrate dev --name 'init'
 - CloudFlare turnstile reCaptcha
 - Contact Form with AWS Simple Email Service
 - Dialog box w/ default 250ms opacity animation duration based on useState
+- Transitions Animation Component for route navigation, based on React.CloneElement
 
 ### Prod
 
@@ -65,6 +66,7 @@ npx prisma migrate dev --name 'init'
 - CloudFlare turnstile reCaptcha
 - Contact Form with AWS Simple Email Service
 - Dialog box w/ default 250ms opacity animation duration based on useState
+- Transitions Animation Component for route navigation, based on React.CloneElement
 
 ## 🚀 CI/CD
 

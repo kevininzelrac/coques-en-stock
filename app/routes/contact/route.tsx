@@ -1,12 +1,25 @@
-import { useFetcher, useLoaderData } from "@remix-run/react";
+import {
+  ClientLoaderFunctionArgs,
+  useFetcher,
+  useLoaderData,
+} from "@remix-run/react";
 import { MetaFunction } from "@remix-run/node";
 import { useEffect, useRef, useState } from "react";
 
 import Turnstile from "~/components/turnstile";
+import Transition from "~/components/transition";
+import sleep from "~/utils/sleep";
 
 import loader from "./loader";
 import action from "./action";
 export { loader, action };
+
+export const clientLoader = async ({
+  serverLoader,
+}: ClientLoaderFunctionArgs) => {
+  await sleep();
+  return await serverLoader<typeof loader>();
+};
 
 export const meta: MetaFunction = () => [
   { title: "Coques en Stock • Contact" },
@@ -35,49 +48,53 @@ export default function Contact() {
   }, [fetcher.data, fetcher.state]);
 
   return (
-    <main>
-      <article>
-        <fetcher.Form
-          method="post"
-          ref={formRef}
-          aria-disabled={isSubmitting}
-          style={{
-            opacity: isSubmitting ? ".8" : "1",
-          }}
-        >
-          <fieldset>
-            <legend>Nom</legend>
-            <input type="text" name="name" required />
-          </fieldset>
-          <fieldset>
-            <legend>Email</legend>
-            <input type="email" name="email" required />
-          </fieldset>
-          <fieldset>
-            <legend>Objet</legend>
-            <input type="text" name="object" required />
-          </fieldset>
-          <fieldset>
-            <legend>Message</legend>
-            <textarea name="message" rows={4} required></textarea>
-          </fieldset>
-          <button data-primary disabled={isSubmitting}>
-            send
-          </button>
-          {/* STATE */}
-          {isSubmitting ? fetcher.state : null}
-          {/* SUCCESS */}
-          {successMessage ? (
-            <div style={{ color: "green" }}>{successMessage}</div>
-          ) : null}
-          {/* ERROR */}
-          {fetcher.data?.error ? (
-            <div style={{ color: "crimson" }}>{fetcher.data.error.message}</div>
-          ) : null}
-          {/* CAPTCHA */}
-          {siteKey && <Turnstile siteKey={siteKey} />}
-        </fetcher.Form>
-      </article>
-    </main>
+    <Transition>
+      <main>
+        <article>
+          <fetcher.Form
+            method="post"
+            ref={formRef}
+            aria-disabled={isSubmitting}
+            style={{
+              opacity: isSubmitting ? ".8" : "1",
+            }}
+          >
+            <fieldset>
+              <legend>Nom</legend>
+              <input type="text" name="name" required />
+            </fieldset>
+            <fieldset>
+              <legend>Email</legend>
+              <input type="email" name="email" required />
+            </fieldset>
+            <fieldset>
+              <legend>Objet</legend>
+              <input type="text" name="object" required />
+            </fieldset>
+            <fieldset>
+              <legend>Message</legend>
+              <textarea name="message" rows={4} required></textarea>
+            </fieldset>
+            <button data-primary disabled={isSubmitting}>
+              send
+            </button>
+            {/* STATE */}
+            {isSubmitting ? fetcher.state : null}
+            {/* SUCCESS */}
+            {successMessage ? (
+              <div style={{ color: "green" }}>{successMessage}</div>
+            ) : null}
+            {/* ERROR */}
+            {fetcher.data?.error ? (
+              <div style={{ color: "crimson" }}>
+                {fetcher.data.error.message}
+              </div>
+            ) : null}
+            {/* CAPTCHA */}
+            {siteKey && <Turnstile siteKey={siteKey} />}
+          </fetcher.Form>
+        </article>
+      </main>
+    </Transition>
   );
 }
