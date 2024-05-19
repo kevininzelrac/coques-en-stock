@@ -48,6 +48,7 @@ npx prisma migrate dev --name 'init'
 - RDS Postgres database
 - CloudFlare turnstile reCaptcha
 - Contact Form with AWS Simple Email Service
+- Dialog box w/ default 250ms opacity animation duration based on useState
 
 ### Prod
 
@@ -63,6 +64,7 @@ npx prisma migrate dev --name 'init'
 - Route53 domain & hosted zone
 - CloudFlare turnstile reCaptcha
 - Contact Form with AWS Simple Email Service
+- Dialog box w/ default 250ms opacity animation duration based on useState
 
 ## 🚀 CI/CD
 
