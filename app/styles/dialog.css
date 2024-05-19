@@ -1,0 +1,72 @@
+dialog {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 3;
+  background-color: transparent;
+  border: none;
+  overflow: hidden;
+}
+
+dialog > span.opaque {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: var(--anthracite);
+  z-index: 0;
+  opacity: 0.7;
+  cursor: pointer;
+}
+
+dialog > div {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  background-color: ghostwhite;
+  width: fit-content;
+  height: fit-content;
+  /* padding: 100px; */
+  padding: 20px;
+  z-index: 1;
+  border-radius: 8px;
+}
+
+dialog > div > button.close {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  width: 30px;
+  height: 30px;
+  color: ghostwhite;
+  background-color: var(--primary);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+@keyframes dialog-fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes dialog-fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
