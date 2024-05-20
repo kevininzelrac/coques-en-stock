@@ -10,7 +10,8 @@ import useTypedRouteLoaderData from "~/hooks/useTypedRouteLoaderData";
 
 import loader from "../settings/loader";
 import action from "./action";
-export { loader, action };
+import ErrorBoundary from "~/components/errorBoundary";
+export { loader, action, ErrorBoundary };
 
 export const clientLoader = async ({
   serverLoader,
@@ -18,6 +19,11 @@ export const clientLoader = async ({
   await sleep();
   return await serverLoader<typeof loader>();
 };
+clientLoader.hydrate = true;
+
+export function HydrateFallback() {
+  return <p>Loading...</p>;
+}
 
 export const meta: MetaFunction = () => [
   { title: "Coques en Stock • Delete Account" },
