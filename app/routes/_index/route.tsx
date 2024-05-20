@@ -1,11 +1,19 @@
-import type { MetaFunction } from "@remix-run/node";
+import { type MetaFunction } from "@remix-run/node";
 import Transition from "~/components/transition";
 import sleep from "~/utils/sleep";
+
+import ErrorBoundary from "~/components/errorBoundary";
+export { ErrorBoundary };
 
 export const clientLoader = async () => {
   await sleep();
   return null;
 };
+clientLoader.hydrate = true;
+
+export function HydrateFallback() {
+  return <p>Loading...</p>;
+}
 
 export const meta: MetaFunction = () => [
   { title: "Coques en Stock • Home" },

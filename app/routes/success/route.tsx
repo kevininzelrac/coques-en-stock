@@ -6,6 +6,9 @@ import {
 } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 
+import ErrorBoundary from "~/components/errorBoundary";
+export { ErrorBoundary };
+
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const message = new URL(request.url).searchParams.get("message");
   if (!message) throw redirect("/");

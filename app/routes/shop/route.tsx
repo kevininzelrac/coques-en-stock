@@ -3,10 +3,18 @@ import Dialog from "~/components/dialog";
 import Transition from "~/components/transition";
 import sleep from "~/utils/sleep";
 
+import ErrorBoundary from "~/components/errorBoundary";
+export { ErrorBoundary };
+
 export const clientLoader = async () => {
   await sleep();
   return null;
 };
+clientLoader.hydrate = true;
+
+export function HydrateFallback() {
+  return <p>Loading...</p>;
+}
 
 export default function Shop() {
   const [display, setDisplay] = useState(false);
