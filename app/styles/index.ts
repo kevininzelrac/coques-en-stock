@@ -9,6 +9,7 @@ import animations from "./animations.css?url";
 import form from "./form.css?url";
 import loading from "./loading.css?url";
 import dialog from "./dialog.css?url";
+import errors from "./errors.css?url";
 
 const links: LinksFunction = () => [
   { rel: "stylesheet", href: reset },
@@ -20,6 +21,7 @@ const links: LinksFunction = () => [
   { rel: "stylesheet", href: form },
   { rel: "stylesheet", href: loading },
   { rel: "stylesheet", href: dialog },
+  { rel: "stylesheet", href: errors },
 ];
 
 export default links;
