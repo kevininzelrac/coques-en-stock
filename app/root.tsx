@@ -9,6 +9,7 @@ import {
   useLoaderData,
   useRouteError,
 } from "@remix-run/react";
+import { LoaderFunctionArgs } from "@remix-run/node";
 
 import links from "./styles/index";
 export { links };
@@ -17,18 +18,10 @@ import bkgrd from "./src/bkgrd.jpg";
 import Header from "./components/header";
 import Footer from "./components/footer";
 import auth from "./services/auth.server";
-import { LoaderFunctionArgs } from "@remix-run/node";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const { id, firstname, email, avatar, headers } = await auth(request);
-  const user = id
-    ? {
-        id: id,
-        firstname: firstname,
-        email: email,
-        avatar: avatar,
-      }
-    : null;
+  const user = id ? { id, firstname, email, avatar } : null;
 
   return json({ user }, { headers });
 };
@@ -70,11 +63,21 @@ export function ErrorBoundary() {
         {isRouteErrorResponse(error) ? (
           error.status >= 400 && error.status <= 499 ? (
             <article data-warning>
-              {error.status} {error.statusText}
+              &nbsp;
+              <strong>
+                {error.status} • {error.statusText}
+              </strong>
+              &nbsp;
+              <i>{error.data}</i>
             </article>
           ) : error.status >= 500 && error.status <= 599 ? (
             <article data-error>
-              {error.status} {error.statusText}
+              &nbsp;
+              <strong>
+                {error.status} • {error.statusText}
+              </strong>
+              &nbsp;
+              <i>{error.data}</i>
             </article>
           ) : null
         ) : error instanceof Error ? (
