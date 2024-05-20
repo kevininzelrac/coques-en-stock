@@ -50,6 +50,7 @@ npx prisma migrate dev --name 'init'
 - Contact Form with AWS Simple Email Service
 - Dialog box w/ default 250ms opacity animation duration based on useState
 - Transitions Animation Component for route navigation, based on React.CloneElement
+- Error Boundary Component based on Remix useRouteError
 
 ### Prod
 
@@ -67,6 +68,7 @@ npx prisma migrate dev --name 'init'
 - Contact Form with AWS Simple Email Service
 - Dialog box w/ default 250ms opacity animation duration based on useState
 - Transitions Animation Component for route navigation, based on React.CloneElement
+- Error Boundary Component based on Remix useRouteError
 
 ## 🚀 CI/CD
 
