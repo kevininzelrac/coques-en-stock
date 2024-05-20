@@ -4,12 +4,18 @@ import { useEffect, useRef } from "react";
 import sleep from "~/utils/sleep";
 
 import action from "./action";
-export { action };
+import ErrorBoundary from "~/components/errorBoundary";
+export { action, ErrorBoundary };
 
 export const clientLoader = async () => {
   await sleep();
   return null;
 };
+clientLoader.hydrate = true;
+
+export function HydrateFallback() {
+  return <p>Loading...</p>;
+}
 
 export const meta: MetaFunction = () => [
   { title: "Coques en Stock • Forgot password" },

@@ -1,11 +1,30 @@
-import { NavLink, Outlet, useLoaderData } from "@remix-run/react";
+import {
+  ClientLoaderFunctionArgs,
+  NavLink,
+  Outlet,
+  useLoaderData,
+} from "@remix-run/react";
 import { LinksFunction } from "@remix-run/node";
+import sleep from "~/utils/sleep";
 
 import styles from "./styles.css?url";
 export let links: LinksFunction = () => [{ rel: "stylesheet", href: styles }];
 
 import loader from "./loader";
-export { loader };
+import ErrorBoundary from "~/components/errorBoundary";
+export { loader, ErrorBoundary };
+
+export const clientLoader = async ({
+  serverLoader,
+}: ClientLoaderFunctionArgs) => {
+  await sleep();
+  return await serverLoader<typeof loader>();
+};
+clientLoader.hydrate = true;
+
+export function HydrateFallback() {
+  return <p>Loading...</p>;
+}
 
 export default function Settings() {
   const { credential } = useLoaderData<typeof loader>();
