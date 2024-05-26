@@ -34,9 +34,11 @@ export const S3SignedUrl = async (filename: string) => {
       Bucket: `${process.env.APP_NAME}-${process.env.BRANCH_NAME}-storage`,
       Key: `storage/${key}`,
     });
-    return await getSignedUrl(s3Client, command, {
+
+    const url = await getSignedUrl(s3Client, command, {
       expiresIn: 5 * 60,
     });
+    return { filename, key: `${process.env.STAGE_ORIGIN}/storage/${key}`, url };
   } catch (error) {
     console.error("S3SignedUrl : ", error);
     return null;
