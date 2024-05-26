@@ -1,28 +1,32 @@
-import { Post, Status as PrismaStatus } from "@prisma/client";
-import { useFetcher, useLoaderData } from "@remix-run/react";
-import loader from "../loader";
+import { useFetcher } from "@remix-run/react";
+import { User, Post } from "@prisma/client";
 import usePriviledges from "~/hooks/usePriviledges";
 import { GiSandsOfTime } from "react-icons/gi";
 import { MdOutlineUnpublished, MdPublishedWithChanges } from "react-icons/md";
 
 export default function Status({
-  id,
-  status,
+  user,
+  post,
 }: {
-  id: Post["id"];
-  status: PrismaStatus;
+  user: {
+    id: User["id"];
+    role: User["role"];
+  };
+  post: {
+    id: Post["id"];
+    status: Post["status"];
+  };
 }) {
-  const { user } = useLoaderData<typeof loader>();
   const fetcher = useFetcher();
   const { isAdmin } = usePriviledges(user);
 
   const isLoading = fetcher.state !== "idle";
-  const isDraft = status === "DRAFT";
+  const isDraft = post.status === "DRAFT";
 
   const handleClick = () => {
     fetcher.submit(
       {
-        id,
+        id: post.id,
         status: isDraft ? "PUBLISHED" : "DRAFT",
       },
       { method: "PATCH", encType: "application/json" }

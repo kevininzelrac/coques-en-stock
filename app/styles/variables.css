@@ -6,4 +6,8 @@
   --darkGrey: darkgrey;
   --mediumGrey: grey;
   --lightGrey: lightgrey;
+
+  --padding: 1rem;
+  --margin: 1rem;
+  --gap: 1rem;
 }

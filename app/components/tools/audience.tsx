@@ -1,28 +1,32 @@
-import { Post, Audience as PrismaAudience } from "@prisma/client";
-import { useFetcher, useLoaderData } from "@remix-run/react";
-import loader from "../loader";
+import { useFetcher } from "@remix-run/react";
+import { User, Post } from "@prisma/client";
 import usePriviledges from "~/hooks/usePriviledges";
 import { GiSandsOfTime } from "react-icons/gi";
 import { MdGroups, MdPublic } from "react-icons/md";
 
 export default function Audience({
-  id,
-  audience,
+  user,
+  post,
 }: {
-  id: Post["id"];
-  audience: PrismaAudience;
+  user: {
+    id: User["id"];
+    role: User["role"];
+  };
+  post: {
+    id: Post["id"];
+    audience: Post["audience"];
+  };
 }) {
-  const { user } = useLoaderData<typeof loader>();
   const fetcher = useFetcher();
   const { isAdmin } = usePriviledges(user);
 
   const isLoading = fetcher.state !== "idle";
-  const isPublic = audience === "PUBLIC";
+  const isPublic = post.audience === "PUBLIC";
 
   const handleClick = () => {
     fetcher.submit(
       {
-        id,
+        id: post.id,
         audience: isPublic ? "PRIVATE" : "PUBLIC",
       },
       { method: "PATCH", encType: "application/json" }

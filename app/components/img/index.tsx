@@ -5,11 +5,13 @@ export default function Img({
   alt,
   width,
   style,
+  onClick,
 }: {
-  src: any;
-  alt?: string;
+  src: HTMLImageElement["src"];
+  alt?: HTMLImageElement["alt"];
   width?: HTMLImageElement["width"];
   style?: React.CSSProperties;
+  onClick?: React.MouseEventHandler<HTMLImageElement>;
 }) {
   const [isLoading, setIsLoading] = useState(true);
 
@@ -26,5 +28,14 @@ export default function Img({
 
   if (isLoading) return <div data-loading></div>;
 
-  return <img key={src} src={src} alt={alt} style={style} width={width} />;
+  return (
+    <img
+      key={src}
+      src={src}
+      alt={alt}
+      style={style}
+      width={width}
+      onClick={onClick}
+    />
+  );
 }

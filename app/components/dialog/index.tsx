@@ -12,7 +12,8 @@ export default function Dialog({
 }) {
   const [isExiting, setIsExiting] = useState(false);
 
-  const handleClose = () => {
+  const handleClose = (e: React.MouseEvent) => {
+    e.preventDefault();
     setIsExiting(true);
     setTimeout(() => {
       handleClick();
@@ -28,9 +29,9 @@ export default function Dialog({
           : `dialog-fadeIn ${duration}ms forwards`,
       }}
     >
-      <span className="opaque" onClick={handleClose}></span>
+      <span className="opaque" onMouseDown={handleClose}></span>
       <div>
-        <button className="close" onClick={handleClose}>
+        <button className="close" onMouseDown={handleClose}>
           x
         </button>
         {children}
