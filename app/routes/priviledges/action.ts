@@ -1,22 +1,22 @@
-import { Audience, Status } from "@prisma/client";
 import { ActionFunctionArgs, json } from "@remix-run/node";
 import withTryCatch from "~/middlewares/withTryCatch";
 import prisma from "~/services/prisma.server";
 import sleep from "~/utils/sleep";
 
 const action = async ({ request }: ActionFunctionArgs) => {
-  let body: { id: string; status?: Status; audience?: Audience } =
-    await request.json();
-  const { id, ...data } = body;
-
   if (request.method === "PATCH") {
     await sleep(300);
+    let body = await request.json();
+    const { id, ...data } = body;
+    const select = Object.fromEntries(
+      Object.keys(body).map((key) => [key, true])
+    );
     return json(
       await withTryCatch(
         prisma.post.update({
           where: { id },
           data: data,
-          select: { id: true, content: true },
+          select: select,
         }),
         "Failed to update post."
       )
