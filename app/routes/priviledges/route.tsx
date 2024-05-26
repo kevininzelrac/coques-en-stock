@@ -7,8 +7,10 @@ import usePriviledges from "~/hooks/usePriviledges";
 
 import sleep from "~/utils/sleep";
 import Transition from "~/components/transition";
-import Status from "./components/status";
-import Audience from "./components/audience";
+import Status from "../../components/tools/status";
+import Audience from "../../components/tools/audience";
+import ClientOnly from "~/utils/clientOnly";
+import ReadOnly from "~/components/slate/readOnly";
 
 import loader from "./loader";
 import action from "./action";
@@ -38,7 +40,7 @@ export default function Priviledges() {
   return (
     <Transition>
       <main>
-        <h1>Priviledges</h1>
+        <h2>Priviledges</h2>
         {!posts.length ? (
           <p>No posts found</p>
         ) : (
@@ -46,10 +48,16 @@ export default function Priviledges() {
             <article key={post.id}>
               <div style={{ display: "flex", alignItems: "center" }}>
                 <h2>{post.title}</h2>
-                <Status id={post.id} status={post.status} />
-                <Audience id={post.id} audience={post.audience} />
+                {(isAdmin || (isEditor && isAuthor(post.author.id))) && (
+                  <>
+                    <Status user={user} post={post} />
+                    <Audience user={user} post={post} />
+                  </>
+                )}
               </div>
-              <p>{post.content}</p>
+              <ClientOnly fallback={<div data-loading></div>}>
+                <ReadOnly>{post.content}</ReadOnly>
+              </ClientOnly>
               {isAuthor(post.author.id) ? (
                 <p>You are the author of this post</p>
               ) : (
