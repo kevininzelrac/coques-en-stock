@@ -2,29 +2,28 @@ import { Slate, Editable, withReact } from "slate-react";
 import { createEditor, Descendant } from "slate";
 import { useEffect, useState } from "react";
 import { RenderElement, RenderLeaf } from "./render";
-import { LinksFunction } from "@remix-run/node";
 import { useLocation } from "@remix-run/react";
 import { withHistory } from "slate-history";
 import Toolbar from "./components/toolbar";
 import Shortcuts from "./shortcuts";
-import styles from "./styles.css?url";
-
-export let links: LinksFunction = () => [{ rel: "stylesheet", href: styles }];
 
 export default function Editor({
   children,
   setIsDraft,
+  color = "#000000",
   get,
   put,
   remove,
 }: {
   children: string;
   setIsDraft: React.Dispatch<React.SetStateAction<boolean>>;
+  color?: string;
   get: (store: string, key: string) => Promise<any>;
   put: (store: string, key: string, value: any) => void;
   remove: (store: string, key: string) => void;
 }) {
   const [editor] = useState(() => withReact(withHistory(createEditor())));
+  editor.color = color;
   editor.get = get;
   editor.put = put;
   editor.remove = remove;
@@ -45,7 +44,7 @@ export default function Editor({
           {
             type: "paragraph",
             textAlign: "left",
-            children: [{ text: children, color: "#000000" }],
+            children: [{ text: children, color: color }],
           },
         ]);
       }
@@ -72,19 +71,17 @@ export default function Editor({
   }
 
   return (
-    <div className="slate">
-      <Slate editor={editor} initialValue={initialValue} onChange={onChange}>
-        <Toolbar />
-        <Editable
-          autoFocus
-          className="editor"
-          renderElement={RenderElement}
-          renderLeaf={RenderLeaf}
-          onKeyDown={(e) => {
-            Shortcuts(e, editor);
-          }}
-        />
-      </Slate>
-    </div>
+    <Slate editor={editor} initialValue={initialValue} onChange={onChange}>
+      <Toolbar />
+      <Editable
+        autoFocus
+        className="slate"
+        renderElement={RenderElement}
+        renderLeaf={RenderLeaf}
+        onKeyDown={(e) => {
+          Shortcuts(e, editor);
+        }}
+      />
+    </Slate>
   );
 }

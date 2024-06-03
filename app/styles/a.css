@@ -10,26 +10,26 @@ a:not(nav a, .primary):hover {
   color: grey;
 }
 
-nav a {
+main nav a {
   color: ghostwhite;
   font-family: "Montserrat-Bold", sans-serif;
   box-sizing: content-box;
   opacity: 0.8;
 }
 
-nav a:hover {
+main nav a:hover {
   opacity: 1;
 }
 
-nav a.active {
+main nav a.active {
   color: var(--primary);
 }
 
-nav a.pending {
+main nav a.pending {
   color: var(--secondary);
 }
 
-header > nav a {
+/* header > nav a {
   text-transform: uppercase;
   padding: 0.8rem 0;
-}
+} */

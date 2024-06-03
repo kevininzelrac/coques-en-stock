@@ -11,7 +11,7 @@ export default function Shortcuts(
   const newLine: ParagraphElement = {
     type: "paragraph",
     textAlign: "left",
-    children: [{ text: "", color: "#000000" }],
+    children: [{ text: "", color: editor.color }],
   };
 
   if (e.key === "Enter") {

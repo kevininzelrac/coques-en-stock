@@ -13,7 +13,7 @@ const withPriviledges = (
         ...where,
         OR: [{ status: "PUBLISHED" }, { status: "DRAFT", authorId: user.id }],
       }
-    : user && user.role === "BASIC"
+    : user && user.role === "GUEST"
     ? {
         ...where,
         status: "PUBLISHED",

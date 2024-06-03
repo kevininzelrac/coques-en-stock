@@ -14,10 +14,10 @@ import { LoaderFunctionArgs } from "@remix-run/node";
 import links from "./styles/index";
 export { links };
 
-import bkgrd from "./src/bkgrd.jpg";
 import Header from "./components/header";
 import Footer from "./components/footer";
 import auth from "./services/auth.server";
+import Nav from "./components/nav";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const { id, firstname, email, avatar, headers } = await auth(request);
@@ -35,11 +35,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body
-        style={{
-          background: `url(${bkgrd})`,
-        }}
-      >
+      <body>
         {children}
         <ScrollRestoration />
         <Scripts />
@@ -60,6 +56,7 @@ export function ErrorBoundary() {
       </head>
       <body>
         <Header />
+        <Nav user={null} />
         {isRouteErrorResponse(error) ? (
           error.status >= 400 && error.status <= 499 ? (
             <article data-warning>
@@ -85,7 +82,7 @@ export function ErrorBoundary() {
         ) : (
           <article data-error>Unknown Error</article>
         )}
-        <Footer user={null} />
+        <Footer />
 
         <Scripts />
       </body>
@@ -99,8 +96,9 @@ export default function App() {
   return (
     <>
       <Header />
+      <Nav user={user} />
       <Outlet />
-      <Footer user={user} />
+      <Footer />
     </>
   );
 }

@@ -46,6 +46,46 @@ const main = async () => {
       },
     },
   });
+  await prisma.user.upsert({
+    where: { email: "dani@prisma.io" },
+    update: {
+      fullname: "Dani Caribeña",
+      firstname: "Dani",
+      lastname: "Caribeña",
+      role: "FOLLOWER",
+      avatar:
+        "https://fastly.picsum.photos/id/884/200/200.jpg?hmac=BEameeYahafzsG-UCcyxl-la3nd2GolgYlQgWpd5krk",
+      credential: {
+        update: {
+          passwordHash: process.env.PWD_HASH,
+        },
+      },
+    },
+    create: {
+      email: "dani@prisma.io",
+      fullname: "Dani Caribeña",
+      firstname: "Dani",
+      lastname: "Caribeña",
+      role: "FOLLOWER",
+      avatar:
+        "https://fastly.picsum.photos/id/962/200/200.jpg?hmac=XehF7z9JYkgC-2ZfSP05h7eyumIq9wNKUDoCLklIhr4",
+      credential: {
+        create: {
+          passwordHash: process.env.PWD_HASH,
+        },
+      },
+    },
+  });
+
+  // Création des types
+  await prisma.type.createMany({
+    data: [{ title: "page" }, { title: "blog" }, { title: "menu" }],
+  });
+
+  // Création des catégories
+  await prisma.category.createMany({
+    data: [{ title: "default" }],
+  });
 
   await prisma.post.upsert({
     where: { title: "Hello World" },

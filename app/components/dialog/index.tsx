@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 
-export default function Dialog({
+export default function DialogV2({
   handleClick,
   duration = 250,
   children,
@@ -12,14 +12,23 @@ export default function Dialog({
 }) {
   const [isExiting, setIsExiting] = useState(false);
 
-  const handleClose = (e: React.MouseEvent) => {
-    e.preventDefault();
+  const handleClose = () => {
     setIsExiting(true);
     setTimeout(() => {
       handleClick();
       setIsExiting(false);
     }, duration);
   };
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") handleClose();
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
 
   return createPortal(
     <dialog
@@ -28,9 +37,16 @@ export default function Dialog({
           ? `dialog-fadeOut ${duration}ms forwards`
           : `dialog-fadeIn ${duration}ms forwards`,
       }}
+      onMouseDown={(e) => {
+        e.preventDefault();
+        handleClose();
+      }}
     >
-      <span className="opaque" onMouseDown={handleClose}></span>
-      <div>
+      <div
+        onMouseDown={(e) => {
+          e.stopPropagation();
+        }}
+      >
         <button className="close" onMouseDown={handleClose}>
           x
         </button>

@@ -8,13 +8,10 @@ export default function Tools() {
   const editor = useSlate();
   const selected = useSelected();
   const focused = useFocused();
+
+  if (!selected || !focused) return null;
   return (
-    <div
-      className="tools"
-      style={{
-        display: selected && focused ? "flex" : "none",
-      }}
-    >
+    <div className="tools" style={styles.tools}>
       <Float float="left" />
       <Float float="right" />
       <Shape name="circle" />
@@ -27,3 +24,19 @@ export default function Tools() {
     </div>
   );
 }
+
+const tools: React.CSSProperties = {
+  position: "absolute",
+  top: 0,
+  left: 0,
+  display: "flex",
+  flexDirection: "row",
+  alignItems: "center",
+  justifyContent: "center",
+  gap: 2,
+  backgroundColor: "transparent",
+};
+
+const styles = {
+  tools,
+};

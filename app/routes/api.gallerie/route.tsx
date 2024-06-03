@@ -8,7 +8,11 @@ export const loader = async () => {
   if (gallerie?.Contents) {
     gallerie.Contents.sort((a: any, b: any) => b.LastModified - a.LastModified);
 
-    const origin = process.env.STAGE_ORIGIN;
+    const origin =
+      process.env.NODE_ENV === "development"
+        ? process.env.STAGE_ORIGIN
+        : process.env.ORIGIN;
+
     gallerie?.Contents.forEach((item: any) => {
       item.url = `${origin}/${item.Key}`;
     });
