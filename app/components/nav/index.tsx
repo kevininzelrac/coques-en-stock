@@ -5,6 +5,7 @@ import { BsFillTelephoneFill } from "react-icons/bs";
 import { FaFacebook, FaHome, FaUser } from "react-icons/fa";
 import { IoMdMail, IoMdSettings } from "react-icons/io";
 import { LuLogOut } from "react-icons/lu";
+import { MdDashboard } from "react-icons/md";
 import { SiBlogger } from "react-icons/si";
 
 import { loader } from "~/root";
@@ -37,6 +38,9 @@ export default function Nav({
       </NavLink>
       {user ? (
         <>
+          <NavLink to="dashboard">
+            <MdDashboard size="25" />
+          </NavLink>
           <NavLink to="settings">
             <IoMdSettings size="25" />
           </NavLink>
