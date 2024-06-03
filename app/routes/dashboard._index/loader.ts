@@ -43,6 +43,7 @@ const loader = async ({ request }: LoaderFunctionArgs) => {
     : prisma.post
         .findMany({
           where: {
+            typeTitle: "blog",
             authorId: user.role === "ADMIN" ? undefined : user.id,
             status: "DRAFT",
           },
