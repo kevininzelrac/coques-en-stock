@@ -51,6 +51,9 @@ npx prisma migrate dev --name 'init'
 - Dialog box w/ default 250ms opacity animation duration based on useState
 - Transitions Animation Component for route navigation, based on React.CloneElement
 - Error Boundary Component based on Remix useRouteError
+- Slate Rich Text Editor
+- Content Privacy based on Priviledges and Roles : ADMIN, EDITOR, GUEST, FOLLOWER
+- Multi User Blog w/ Posts, Pagination, Likes, Comments, Filter by Authors, Types & Categories
 
 ### Prod
 
@@ -69,6 +72,9 @@ npx prisma migrate dev --name 'init'
 - Dialog box w/ default 250ms opacity animation duration based on useState
 - Transitions Animation Component for route navigation, based on React.CloneElement
 - Error Boundary Component based on Remix useRouteError
+- Slate Rich Text Editor
+- Content Privacy based on Priviledges and Roles : ADMIN, EDITOR, GUEST, FOLLOWER
+- Multi User Blog w/ Posts, Pagination, Likes, Comments, Filter by Authors, Types & Categories
 
 ## 🚀 CI/CD
 

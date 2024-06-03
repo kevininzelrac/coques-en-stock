@@ -10,6 +10,9 @@ import form from "./form.css?url";
 import loading from "./loading.css?url";
 import dialog from "./dialog.css?url";
 import errors from "./errors.css?url";
+import nav from "./nav.css?url";
+import header from "./header.css?url";
+import footer from "./footer.css?url";
 
 const links: LinksFunction = () => [
   { rel: "stylesheet", href: reset },
@@ -22,6 +25,9 @@ const links: LinksFunction = () => [
   { rel: "stylesheet", href: loading },
   { rel: "stylesheet", href: dialog },
   { rel: "stylesheet", href: errors },
+  { rel: "stylesheet", href: nav },
+  { rel: "stylesheet", href: header },
+  { rel: "stylesheet", href: footer },
 ];
 
 export default links;

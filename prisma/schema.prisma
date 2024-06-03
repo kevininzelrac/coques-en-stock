@@ -21,6 +21,9 @@ model User {
   refreshToken  RefreshToken[]
   role          Role            @default(FOLLOWER)
   posts         Post[]
+  comments      Comment[]
+  likes         Like[]
+
   @@index([email])
   @@unique([firstname, lastname])
 }
@@ -54,14 +57,70 @@ model Post {
   author        User      @relation(fields: [authorId], references: [id])
   status        Status    @default(DRAFT)
   audience      Audience  @default(PRIVATE)
+  category      Category  @relation(fields: [categoryTitle], references: [title], onDelete: Cascade, onUpdate: Cascade)
+  categoryTitle String    @default("default")
+  type          Type      @relation(fields: [typeTitle], references: [title])
+  typeTitle     String    @default("blog")
+  comments      Comment[]
+  likes         Like[]
 
   @@index([createdAt])
+  @@unique([title, typeTitle, categoryTitle])
+}
+
+model Type {
+  id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  title       String    @unique @default("blog") 
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  posts       Post[]
+
+  @@index([title])
+}
+
+model Category {
+  id        String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  title     String    @unique @default("default")
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  posts     Post[]   
+}
+
+model Comment {
+  id        String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  content   String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  status    Status    @default(DRAFT)
+  postId    String    @db.Uuid
+  post      Post      @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  authorId  String    @db.Uuid
+  author    User      @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  likes     Like[]
+  commentId  String?   @db.Uuid
+  comment   Comment?  @relation("CommentToComment", fields: [commentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  comments  Comment[] @relation("CommentToComment")
+}
+
+model Like {
+  id        String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  postId    String?   @db.Uuid
+  post      Post?     @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  commentId String?   @db.Uuid
+  comment   Comment?  @relation(fields: [commentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  authorId  String    @db.Uuid
+  author    User      @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  
+  @@unique([postId, authorId])
+  @@unique([commentId, authorId])
 }
 
 enum Role {
   ADMIN
   EDITOR
-  BASIC
+  GUEST
   FOLLOWER
 }
 

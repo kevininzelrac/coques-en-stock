@@ -15,6 +15,7 @@ declare module "slate" {
 export type CustomEditor = BaseEditor &
   ReactEditor &
   HistoryEditor & {
+    color: string;
     put: (store: string, key: string, value: any) => void;
     get: (store: string, key: string) => any;
     remove: (store: string, key: string) => void;

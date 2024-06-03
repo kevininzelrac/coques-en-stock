@@ -9,20 +9,9 @@ dialog {
   top: 0;
   left: 0;
   z-index: 3;
-  background-color: transparent;
+  background-color: rgb(0, 0, 0, 0.7);
   border: none;
   overflow: hidden;
-}
-
-dialog > span.opaque {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  background-color: var(--anthracite);
-  z-index: 0;
-  opacity: 0.7;
   cursor: pointer;
 }
 
@@ -39,6 +28,7 @@ dialog > div {
   padding: 20px;
   z-index: 1;
   border-radius: 8px;
+  cursor: default;
 }
 
 dialog > div > button.close {

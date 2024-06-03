@@ -1,0 +1,5 @@
+main > section > nav.pagination {
+  display: flex;
+  justify-content: center;
+  gap: var(--gap);
+}

@@ -1,6 +1,9 @@
-import { type MetaFunction } from "@remix-run/node";
+import { LinksFunction, type MetaFunction } from "@remix-run/node";
 import Transition from "~/components/transition";
 import sleep from "~/utils/sleep";
+
+import styles from "./styles.css?url";
+export let links: LinksFunction = () => [{ rel: "stylesheet", href: styles }];
 
 import ErrorBoundary from "~/components/errorBoundary";
 export { ErrorBoundary };

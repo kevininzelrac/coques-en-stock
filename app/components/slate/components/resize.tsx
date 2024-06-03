@@ -47,17 +47,25 @@ export default function Resize({
     document.body.addEventListener("mouseup", onMouseUp, { once: true });
   };
 
+  if (!selected || !focused) return null;
   return (
-    <button
-      className="resize"
-      style={{
-        display: selected && focused ? "flex" : "none",
-      }}
-      onMouseDown={handleResize}
-    >
+    <button className="resize" style={styles.resize} onMouseDown={handleResize}>
       <Icon type="resize" />
-      {/* <div>{size.width}</div>
-      <div>{size.height}</div> */}
+      {/* <div>{size.width}</div> */}
+      {/* <div>{size.height}</div> */}
     </button>
   );
 }
+const resize: React.CSSProperties = {
+  position: "absolute",
+  bottom: 0,
+  right: 0,
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  justifyContent: "center",
+  cursor: "nwse-resize",
+};
+const styles = {
+  resize,
+};

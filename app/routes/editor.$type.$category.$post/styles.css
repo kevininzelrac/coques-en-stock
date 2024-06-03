@@ -1,0 +1,63 @@
+main {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+main > article {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  color: ghostwhite;
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: var(--padding);
+  border-radius: var(--radius);
+}
+
+main > article > header {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+main > article > header > div {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+main > article > header > span {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: var(--gap);
+}
+
+main > article > nav.toolbar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  margin: 0.5rem 0;
+  gap: 0.2rem;
+}
+
+main > article button.active {
+  border: 1px solid var(--primary);
+}
+
+main > article > .slate {
+  width: 100%;
+  height: fit-content;
+  padding: 0.5rem;
+}
+
+main > article > .slate div::after {
+  content: "";
+  clear: both;
+  display: table;
+}
