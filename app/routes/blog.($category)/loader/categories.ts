@@ -20,7 +20,9 @@ const categories = async (user: { id: string; role: Role } | null) =>
         _count: {
           select: {
             posts: {
-              where: withPriviledges(user, {}),
+              where: withPriviledges(user, {
+                type: { title: "blog" },
+              }),
             },
           },
         },
