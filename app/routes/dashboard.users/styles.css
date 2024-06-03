@@ -1,0 +1,20 @@
+main > section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+}
+
+main > section > article {
+  width: fit-content;
+  padding: var(--padding);
+  display: flex;
+  flex-direction: row;
+  gap: var(--gap);
+  background-color: ghostwhite;
+}
+
+main > section > article > div {
+  display: flex;
+  flex-direction: column;
+}

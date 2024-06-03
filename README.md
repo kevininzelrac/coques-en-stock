@@ -54,6 +54,7 @@ npx prisma migrate dev --name 'init'
 - Slate Rich Text Editor
 - Content Privacy based on Priviledges and Roles : ADMIN, EDITOR, GUEST, FOLLOWER
 - Multi User Blog w/ Posts, Pagination, Likes, Comments, Filter by Authors, Types & Categories
+- Dashboard w/ Users, Posts, Comments & Likes Reviews
 
 ### Prod
 
@@ -75,6 +76,7 @@ npx prisma migrate dev --name 'init'
 - Slate Rich Text Editor
 - Content Privacy based on Priviledges and Roles : ADMIN, EDITOR, GUEST, FOLLOWER
 - Multi User Blog w/ Posts, Pagination, Likes, Comments, Filter by Authors, Types & Categories
+- Dashboard w/ Users, Posts, Comments & Likes Reviews
 
 ## 🚀 CI/CD
 
