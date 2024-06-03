@@ -1,5 +1,4 @@
 import { useFetcher, useLocation } from "@remix-run/react";
-import { Post } from "@prisma/client";
 import { GiSandsOfTime } from "react-icons/gi";
 import { IoSaveSharp } from "react-icons/io5";
 import idb from "~/services/idb.client";
@@ -10,7 +9,10 @@ const Update = ({
   setIsDraft,
 }: {
   post: {
-    id: Post["id"];
+    id: string;
+    type: {
+      title: string;
+    };
   };
   isDraft: boolean;
   setIsDraft: React.Dispatch<React.SetStateAction<boolean>>;
@@ -22,6 +24,8 @@ const Update = ({
   const handleClick = async () => {
     fetcher.submit(
       {
+        action: "update",
+        type: post.type.title,
         id: post.id,
         content: await idb.get("slate", pathname),
       },
@@ -37,7 +41,7 @@ const Update = ({
       disabled={!isDraft}
       style={{
         cursor: isDraft ? "pointer" : "default",
-        border: isDraft ? "1px solid var(--primary)" : "none",
+        border: isDraft ? "1px solid crimson" : "none",
       }}
     >
       {isLoading ? <GiSandsOfTime /> : <IoSaveSharp />}

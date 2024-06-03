@@ -1,32 +1,37 @@
 import { useFetcher } from "@remix-run/react";
-import { User, Post } from "@prisma/client";
+import { User } from "@prisma/client";
 import usePriviledges from "~/hooks/usePriviledges";
 import { GiSandsOfTime } from "react-icons/gi";
 import { MdOutlineUnpublished, MdPublishedWithChanges } from "react-icons/md";
 
 export default function Status({
   user,
-  post,
+  data,
 }: {
   user: {
     id: User["id"];
     role: User["role"];
   };
-  post: {
-    id: Post["id"];
-    status: Post["status"];
+  data: {
+    id: string;
+    status: string;
+    type: {
+      title: string;
+    };
   };
 }) {
   const fetcher = useFetcher();
   const { isAdmin } = usePriviledges(user);
 
   const isLoading = fetcher.state !== "idle";
-  const isDraft = post.status === "DRAFT";
+  const isDraft = data.status === "DRAFT";
 
   const handleClick = () => {
     fetcher.submit(
       {
-        id: post.id,
+        action: "status",
+        type: data.type.title,
+        id: data.id,
         status: isDraft ? "PUBLISHED" : "DRAFT",
       },
       { method: "PATCH", encType: "application/json" }
@@ -44,7 +49,7 @@ export default function Status({
       {isLoading ? (
         <GiSandsOfTime />
       ) : isDraft ? (
-        <MdOutlineUnpublished color="crimson" />
+        <MdOutlineUnpublished color="orange" />
       ) : (
         <MdPublishedWithChanges color="green" />
       )}
