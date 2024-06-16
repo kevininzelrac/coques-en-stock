@@ -1,58 +1,39 @@
-import { SerializeFrom } from "@remix-run/node";
-import { NavLink } from "@remix-run/react";
+import useScrollPosition from "~/hooks/useScrollPosition";
+import { SiSailsdotjs } from "react-icons/si";
 
-import { BsFillTelephoneFill } from "react-icons/bs";
-import { FaFacebook, FaHome, FaUser } from "react-icons/fa";
-import { IoMdMail, IoMdSettings } from "react-icons/io";
-import { LuLogOut } from "react-icons/lu";
-import { MdDashboard } from "react-icons/md";
-import { SiBlogger } from "react-icons/si";
+import Desktop from "./desktop";
+import Mobile from "./mobile";
 
-import { loader } from "~/root";
-
-export default function Nav({
+export default function Index({
   user,
+  menu,
 }: {
-  user: SerializeFrom<typeof loader>["user"];
+  user: { id: string; role: string; firstname: string; avatar: string } | null;
+  menu: { id: string; title: string }[] | null;
 }) {
+  const { ref, isTop } = useScrollPosition();
+
   return (
-    <nav>
-      <NavLink to="/">
-        <FaHome size="25" />
-      </NavLink>
-      <NavLink to="contact">
-        <IoMdMail size="25" />
-      </NavLink>
-      <NavLink to="tel:0680782110">
-        <BsFillTelephoneFill size="25" />
-      </NavLink>
-      <NavLink
-        to="https://www.facebook.com/Neo495Sailing"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <FaFacebook size="25" />
-      </NavLink>
-      <NavLink to="blog">
-        <SiBlogger size="25" />
-      </NavLink>
-      {user ? (
-        <>
-          <NavLink to="dashboard">
-            <MdDashboard size="25" />
-          </NavLink>
-          <NavLink to="settings">
-            <IoMdSettings size="25" />
-          </NavLink>
-          <NavLink to="signout">
-            <LuLogOut size="25" />
-          </NavLink>
-        </>
-      ) : (
-        <NavLink to="signin">
-          <FaUser size="25" />
-        </NavLink>
+    <nav
+      ref={ref}
+      style={{
+        backgroundColor: isTop ? "ghostwhite" : "transparent",
+        boxShadow: isTop ? "var(--boxShadow)" : "none",
+      }}
+    >
+      {isTop && (
+        <SiSailsdotjs
+          style={{
+            transform: "scaleX(-1)",
+            position: "absolute",
+            left: "1rem",
+            top: "auto",
+          }}
+        />
       )}
+
+      <Desktop user={user} menu={menu} />
+      <Mobile user={user} menu={menu} />
     </nav>
   );
 }
