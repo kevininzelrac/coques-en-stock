@@ -1,26 +1,100 @@
 body > nav {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 200ms ease, box-shadow 200ms ease;
+}
+
+body > nav > section {
   width: fit-content;
-  height: fit-content;
-  margin: var(--margin);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: calc(var(--gap) * 2);
+  padding: var(--padding);
+}
+
+body > nav > section > div.menu {
+  position: relative;
+  z-index: 1;
+}
+
+body > nav > section > div.menu > div.children {
+  position: absolute;
+  z-index: 0;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--anthracite);
   display: flex;
   flex-direction: row;
-  align-items: center;
-  justify-self: center;
-  gap: 2rem;
+  align-items: flex-start;
+  justify-content: space-evenly;
+  gap: 1rem;
+  transition: all 0.2s ease-in-out;
 }
 
-body > nav > a.active > svg {
+body > nav > section > div.menu > div.children > div.pages {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1rem;
+  padding: 0.5rem;
+}
+
+body > nav > section > div.menu > div.children > div.account {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.5rem;
+}
+
+body > nav a {
+  color: var(--anthracite);
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+body > nav a.pending {
+  color: var(--primary);
+  opacity: 0.8;
+}
+
+body > nav a.active {
   color: var(--primary);
 }
-body > nav > a.pending > svg {
-  color: var(--anthracite);
+
+body > nav a:hover {
+  opacity: 0.8;
 }
 
-body > nav > a > svg {
-  color: black;
-  filter: drop-shadow(2px 0px 3px rgb(50, 50, 50, 0.4));
+body > nav svg {
+  cursor: pointer;
+  width: 1.2rem;
+  height: auto;
 }
 
-body > nav > a:hover > svg {
-  opacity: 0.7;
+body > nav > section > div.menu > div * {
+  color: ghostwhite;
+}
+
+body > nav > section {
+  display: none;
+}
+
+@media (min-width: 800px) {
+  nav > section.desktop {
+    display: flex;
+  }
+}
+
+@media (max-width: 799px) {
+  nav > section.mobile {
+    display: flex;
+  }
 }
