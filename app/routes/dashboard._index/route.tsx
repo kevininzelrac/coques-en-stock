@@ -11,6 +11,7 @@ import sleep from "~/utils/sleep";
 
 import Users from "./components/users";
 import Posts from "./components/posts";
+import Pages from "./components/pages";
 import Likes from "./components/likes";
 import Comments from "./components/comments";
 import ErrorElement from "~/components/errorElement";
@@ -35,7 +36,7 @@ export function HydrateFallback() {
 }
 
 export default function Index() {
-  const { user, users, posts, comments, likes } =
+  const { user, users, posts, pages, comments, likes } =
     useLoaderData<typeof loader>();
   const { isAdmin, isEditor, isGuest } = usePriviledges(user);
   return (
@@ -52,6 +53,13 @@ export default function Index() {
           <Suspense fallback={<div data-loading></div>}>
             <Await resolve={posts} errorElement={<ErrorElement />}>
               {(posts) => <Posts posts={posts} />}
+            </Await>
+          </Suspense>
+        )}
+        {(isAdmin || isEditor) && (
+          <Suspense fallback={<div data-loading></div>}>
+            <Await resolve={pages} errorElement={<ErrorElement />}>
+              {(pages) => <Pages pages={pages} />}
             </Await>
           </Suspense>
         )}
