@@ -74,6 +74,42 @@ const loader = async ({ request }: LoaderFunctionArgs) => {
         })
         .then((posts) => posts);
 
+  const pages = !["ADMIN", "EDITOR"].includes(user.role)
+    ? Promise.resolve([])
+    : prisma.post
+        .findMany({
+          where: {
+            typeTitle: "page",
+            authorId: user.role === "ADMIN" ? undefined : user.id,
+            status: "DRAFT",
+          },
+          orderBy: { createdAt: "desc" },
+          take: 20,
+          select: {
+            id: true,
+            title: true,
+            status: true,
+            category: {
+              select: {
+                title: true,
+              },
+            },
+            type: {
+              select: {
+                title: true,
+              },
+            },
+            createdAt: true,
+            author: {
+              select: {
+                firstname: true,
+                avatar: true,
+              },
+            },
+          },
+        })
+        .then((pages) => pages);
+
   const comments = ["FOLLOWER"].includes(user?.role)
     ? Promise.resolve([])
     : prisma.comment
@@ -83,11 +119,11 @@ const loader = async ({ request }: LoaderFunctionArgs) => {
               ? { status: "DRAFT" }
               : {
                   OR: [
-                    { authorId: user.id, status: "DRAFT" },
-                    { status: "PUBLISHED" },
+                    { authorId: user.id },
+                    { post: { authorId: user.id }, status: "PUBLISHED" },
+                    { comment: { authorId: user.id }, status: "PUBLISHED" },
                   ],
                 },
-
           orderBy: { createdAt: "desc" },
           take: 20,
           select: {
@@ -213,6 +249,6 @@ const loader = async ({ request }: LoaderFunctionArgs) => {
     })
     .then((likes) => likes);
 
-  return defer({ user, users, posts, likes, comments }, { headers });
+  return defer({ user, users, posts, pages, likes, comments }, { headers });
 };
 export default loader;
