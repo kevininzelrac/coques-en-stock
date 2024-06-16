@@ -19,7 +19,7 @@ type fetcherType =
 
 export default function Create({
   type,
-  category = "",
+  category = "default",
 }: {
   type: string;
   category?: string;
@@ -59,9 +59,7 @@ export default function Create({
 
   return (
     <>
-      <button onClick={handleClick} data-tooltip={"add " + type}>
-        <BiPlus />
-      </button>
+      <BiPlus onClick={handleClick} data-tooltip={"add " + type} />
       {display && (
         <Dialog handleClick={handleClick}>
           <h3>
