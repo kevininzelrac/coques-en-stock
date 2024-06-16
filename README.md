@@ -55,6 +55,9 @@ npx prisma migrate dev --name 'init'
 - Content Privacy based on Priviledges and Roles : ADMIN, EDITOR, GUEST, FOLLOWER
 - Multi User Blog w/ Posts, Pagination, Likes, Comments, Filter by Authors, Types & Categories
 - Dashboard w/ Users, Posts, Comments & Likes Reviews
+- Dynamic and Responsive Navigation Bar w/ animated background color & logo on scroll
+- Dropdown Account menu w/ Review & Edition Tools
+- Drag and Drop Menu Route for easy selection and reordering of navigation items.
 
 ### Prod
 
@@ -77,6 +80,9 @@ npx prisma migrate dev --name 'init'
 - Content Privacy based on Priviledges and Roles : ADMIN, EDITOR, GUEST, FOLLOWER
 - Multi User Blog w/ Posts, Pagination, Likes, Comments, Filter by Authors, Types & Categories
 - Dashboard w/ Users, Posts, Comments & Likes Reviews
+- Dynamic and Responsive Navigation Bar w/ animated background color & logo on scroll
+- Dropdown Account menu w/ Review & Edition Tools
+- Drag and Drop Menu Route for easy selection and reordering of navigation items.
 
 ## 🚀 CI/CD
 
