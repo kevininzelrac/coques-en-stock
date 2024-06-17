@@ -7,14 +7,16 @@ import {
   Audience as prismaAudience,
   Status as prismaStatus,
 } from "@prisma/client";
+import { useNavigate } from "@remix-run/react";
+import { BsEscape } from "react-icons/bs";
+
+import usePriviledges from "~/hooks/usePriviledges";
+
 import Status from "./status";
 import Audience from "./audience";
 import Edit from "./edit";
 import Delete from "./delete";
-import usePriviledges from "~/hooks/usePriviledges";
-import { useNavigate } from "@remix-run/react";
 import Update from "./update";
-import { BsEscape } from "react-icons/bs";
 
 export default function Tools({
   user,
@@ -44,8 +46,8 @@ export default function Tools({
   const isEditing = isDraft !== undefined && setIsDraft !== undefined;
   const to = useNavigate();
 
-  const Quit = () => (
-    <button onClick={() => to(-1)}>
+  const Exit = () => (
+    <button onClick={() => to(-1)} data-tooltip="Exit">
       <BsEscape />
     </button>
   );
@@ -62,7 +64,7 @@ export default function Tools({
         <span style={styles.span}>
           {(isAdmin || isEditor) && isAuthor(data.author.id) && (
             <>
-              <Quit />
+              <Exit />
               <Update post={data} isDraft={isDraft} setIsDraft={setIsDraft} />
             </>
           )}

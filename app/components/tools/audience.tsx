@@ -41,6 +41,7 @@ export default function Audience({
   return (
     <button
       onClick={handleClick}
+      data-tooltip={data.audience}
       disabled={!isAdmin}
       style={{
         cursor: isAdmin ? "pointer" : "default",
