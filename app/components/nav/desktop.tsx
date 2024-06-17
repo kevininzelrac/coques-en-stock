@@ -21,16 +21,17 @@ export default function Desktop({
       {menu && menu.length ? <Menu menu={menu} /> : null}
 
       <NavLink to="blog">Blog</NavLink>
-      <NavLink to="contact">
+      <NavLink to="contact" data-tooltip="Contact">
         <IoMdMail />
       </NavLink>
-      <NavLink to="tel:0680782110">
+      <NavLink to="tel:0680782110" data-tooltip="Phone">
         <BsFillTelephoneFill />
       </NavLink>
       <NavLink
         to="https://www.facebook.com/Neo495Sailing"
         target="_blank"
         rel="noopener noreferrer"
+        data-tooltip="Facebook"
       >
         <FaFacebook />
       </NavLink>
