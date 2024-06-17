@@ -59,7 +59,9 @@ export default function Create({
 
   return (
     <>
-      <BiPlus onClick={handleClick} data-tooltip={"add " + type} />
+      <button onClick={handleClick} data-tooltip={"add " + type}>
+        <BiPlus />
+      </button>
       {display && (
         <Dialog handleClick={handleClick}>
           <h3>

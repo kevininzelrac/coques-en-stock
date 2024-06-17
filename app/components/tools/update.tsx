@@ -38,6 +38,7 @@ const Update = ({
   return (
     <button
       onClick={handleClick}
+      data-tooltip={isDraft ? "Save" : "No changes to save"}
       disabled={!isDraft}
       style={{
         cursor: isDraft ? "pointer" : "default",

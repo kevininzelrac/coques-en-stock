@@ -13,6 +13,7 @@ import errors from "./errors.css?url";
 import nav from "./nav.css?url";
 import header from "./header.css?url";
 import footer from "./footer.css?url";
+import tooltip from "./tooltip.css?url";
 
 const links: LinksFunction = () => [
   { rel: "stylesheet", href: reset },
@@ -28,6 +29,7 @@ const links: LinksFunction = () => [
   { rel: "stylesheet", href: nav },
   { rel: "stylesheet", href: header },
   { rel: "stylesheet", href: footer },
+  { rel: "stylesheet", href: tooltip },
 ];
 
 export default links;

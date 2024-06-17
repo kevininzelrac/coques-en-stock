@@ -58,6 +58,7 @@ npx prisma migrate dev --name 'init'
 - Dynamic and Responsive Navigation Bar w/ animated background color & logo on scroll
 - Dropdown Account menu w/ Review & Edition Tools
 - Drag and Drop Menu Route for easy selection and reordering of navigation items.
+- Animated Tooltips showing on hover based on css data-tooltip
 
 ### Prod
 
@@ -83,6 +84,7 @@ npx prisma migrate dev --name 'init'
 - Dynamic and Responsive Navigation Bar w/ animated background color & logo on scroll
 - Dropdown Account menu w/ Review & Edition Tools
 - Drag and Drop Menu Route for easy selection and reordering of navigation items.
+- Animated Tooltips showing on hover based on css data-tooltip
 
 ## 🚀 CI/CD
 

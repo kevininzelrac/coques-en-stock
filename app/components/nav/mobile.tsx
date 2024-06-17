@@ -18,19 +18,19 @@ export default function Nav({
 }) {
   return (
     <section className="mobile">
-      <NavLink to="/">
+      <NavLink to="/" data-tooltip="Home">
         <FaHome />
       </NavLink>
 
-      <NavLink to="blog">
+      <NavLink to="blog" data-tooltip="Blog">
         <FaBlogger />
       </NavLink>
 
-      <NavLink to="contact">
+      <NavLink to="contact" data-tooltip="Contact">
         <IoMdMail />
       </NavLink>
 
-      <NavLink to="tel:0680782110">
+      <NavLink to="tel:0680782110" data-tooltip="Phone">
         <BsFillTelephoneFill />
       </NavLink>
 
@@ -38,12 +38,13 @@ export default function Nav({
         to="https://www.facebook.com/Neo495Sailing"
         target="_blank"
         rel="noopener noreferrer"
+        data-tooltip="Facebook"
       >
         <FaFacebook />
       </NavLink>
 
       {!user ? (
-        <NavLink to="signin">
+        <NavLink to="signin" data-tooltip="Sign In">
           <FaUser />
         </NavLink>
       ) : null}

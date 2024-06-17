@@ -20,10 +20,12 @@ export default function Dropdown({ children }: { children: React.ReactNode }) {
   useMemo(() => nav.state !== "idle" && display && handleClick(), [nav.state]);
 
   return (
-    <div className="menu">
+    <div className="dropdown">
       {display ? (
         <>
-          <CgClose onClick={handleClick} />
+          <button onClick={handleClick}>
+            <CgClose />
+          </button>
           <div
             className="children"
             style={{
@@ -35,7 +37,9 @@ export default function Dropdown({ children }: { children: React.ReactNode }) {
           </div>
         </>
       ) : (
-        <CgMenuGridO onClick={handleClick} />
+        <button onClick={handleClick}>
+          <CgMenuGridO />
+        </button>
       )}
     </div>
   );
