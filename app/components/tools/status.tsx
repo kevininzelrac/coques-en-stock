@@ -1,8 +1,8 @@
 import { useFetcher } from "@remix-run/react";
 import { User } from "@prisma/client";
 import usePriviledges from "~/hooks/usePriviledges";
-import { GiSandsOfTime } from "react-icons/gi";
 import { MdOutlineUnpublished, MdPublishedWithChanges } from "react-icons/md";
+import { GiSandsOfTime } from "react-icons/gi";
 
 export default function Status({
   user,
@@ -41,6 +41,7 @@ export default function Status({
   return (
     <button
       onClick={handleClick}
+      data-tooltip={data.status}
       disabled={!isAdmin}
       style={{
         cursor: isAdmin ? "pointer" : "default",

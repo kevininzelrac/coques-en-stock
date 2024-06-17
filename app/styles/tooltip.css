@@ -1,0 +1,25 @@
+[data-tooltip] {
+  position: relative;
+}
+
+[data-tooltip]::after {
+  position: absolute;
+  right: 0;
+  content: attr(data-tooltip);
+  display: none;
+  background: var(--secondary);
+  color: ghostwhite;
+  border-radius: var(--radius);
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  font-size: small;
+  opacity: 0;
+  transition: opacity 200ms ease 400ms;
+  box-shadow: var(--boxShadow);
+  z-index: 2;
+}
+
+[data-tooltip]:hover::after {
+  display: block;
+  opacity: 1;
+}

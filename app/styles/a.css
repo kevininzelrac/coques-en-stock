@@ -14,11 +14,11 @@ main nav a {
   color: ghostwhite;
   font-family: "Montserrat-Bold", sans-serif;
   box-sizing: content-box;
-  opacity: 0.8;
+  opacity: 1;
 }
 
 main nav a:hover {
-  opacity: 1;
+  opacity: 0.7;
 }
 
 main nav a.active {

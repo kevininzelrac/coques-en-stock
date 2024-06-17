@@ -18,12 +18,12 @@ body > nav > section {
   padding: var(--padding);
 }
 
-body > nav > section > div.menu {
+body > nav > section > div.dropdown {
   position: relative;
   z-index: 1;
 }
 
-body > nav > section > div.menu > div.children {
+body > nav > section > div.dropdown > div.children {
   position: absolute;
   z-index: 0;
   top: 100%;
@@ -38,7 +38,7 @@ body > nav > section > div.menu > div.children {
   transition: all 0.2s ease-in-out;
 }
 
-body > nav > section > div.menu > div.children > div.pages {
+body > nav > section > div.dropdown > div.children > div.pages {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -46,7 +46,7 @@ body > nav > section > div.menu > div.children > div.pages {
   padding: 0.5rem;
 }
 
-body > nav > section > div.menu > div.children > div.account {
+body > nav > section > div.dropdown > div.children > div.account {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -54,10 +54,16 @@ body > nav > section > div.menu > div.children > div.account {
   padding: 0.5rem;
 }
 
-body > nav a {
+body > nav > section > div.dropdown > div * {
+  color: ghostwhite;
+}
+
+body > nav * {
   color: var(--anthracite);
   font-weight: bold;
   font-size: 1rem;
+  opacity: 1;
+  transition: opacity 300ms ease;
 }
 
 body > nav a.pending {
@@ -69,18 +75,9 @@ body > nav a.active {
   color: var(--primary);
 }
 
-body > nav a:hover {
-  opacity: 0.8;
-}
-
-body > nav svg {
-  cursor: pointer;
-  width: 1.2rem;
-  height: auto;
-}
-
-body > nav > section > div.menu > div * {
-  color: ghostwhite;
+body > nav a:hover:not([data-tooltip]),
+body > nav a:hover > * {
+  opacity: 0.7;
 }
 
 body > nav > section {

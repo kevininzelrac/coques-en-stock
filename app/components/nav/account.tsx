@@ -16,18 +16,34 @@ export default function Account({
   const { isAdmin, isEditor } = usePriviledges(user);
   const to = useNavigate();
 
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const target = e.currentTarget.dataset.tooltip;
+    if (!target) return;
+    to(target);
+  };
+
   return (
     <div className="account">
       <img src={user.avatar} alt={user.firstname} width={40} />
       <span>{user.firstname}</span>
       {(isAdmin || isEditor) && <Create type="page" />}
-      {isAdmin && <BiSolidDirections onClick={() => to("menu")} />}
-      {(isAdmin || isEditor) && (
-        <MdDashboardCustomize onClick={() => to("Dashboard")} />
+      {isAdmin && (
+        <button onClick={handleClick} data-tooltip="Menu">
+          <BiSolidDirections />
+        </button>
       )}
-      <IoSettingsOutline onClick={() => to("Settings")} />
+      {(isAdmin || isEditor) && (
+        <button onClick={handleClick} data-tooltip="Dashboard">
+          <MdDashboardCustomize />
+        </button>
+      )}
+      <button onClick={handleClick} data-tooltip="Settings">
+        <IoSettingsOutline />
+      </button>
 
-      <LuLogOut onClick={() => to("Signout")} />
+      <button onClick={handleClick} data-tooltip="SignOut">
+        <LuLogOut />
+      </button>
     </div>
   );
 }
